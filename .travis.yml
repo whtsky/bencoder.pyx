@@ -10,5 +10,4 @@ python:
 
 before_install: pip install Cython
 install: python setup.py install
-script: coverage run --source=bencoder setup.py -q nosetests
-after_success: coveralls
+script: nosetests
