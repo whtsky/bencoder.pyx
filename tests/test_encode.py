@@ -14,7 +14,7 @@ def test_encode_int():
 def test_encode_bytes():
     b = b"TheseAreSomeBytes"
     coded = bencode(b)
-    l = bytes(str(len(b)))
+    l = str(len(b)).encode()
     assert coded == l + b':' + b
 
 
