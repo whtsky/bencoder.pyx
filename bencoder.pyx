@@ -29,10 +29,10 @@ def decode_int(bytes x, int f):
     f += 1
     new_f = x.index(b'e', f)
     n = int(x[f:new_f])
-    if x[f] == ord('-'):
-        if x[f + 1] == ord('0'):
+    if x[f] == b'-'[0]:
+        if x[f + 1] == b'0'[0]:
             raise ValueError()
-    elif x[f] == ord('0') and new_f != f + 1:
+    elif x[f] == b'0'[0] and new_f != f + 1:
         raise ValueError()
     return n, new_f + 1
 
@@ -40,7 +40,7 @@ def decode_int(bytes x, int f):
 def decode_string(bytes x, int f):
     colon = x.index(b':', f)
     n = int(x[f:colon])
-    if x[f] == ord('0') and colon != f + 1:
+    if x[f] == b'0'[0] and colon != f + 1:
         raise ValueError()
     colon += 1
     return x[colon:colon + n], colon + n
