@@ -15,15 +15,15 @@ ext_modules = [Extension("bencoder", ["bencoder.pyx"])]
 
 setup(
     name='bencoder.pyx',
-    version='1.0',
+    version='1.0.0',
     description='Yet another bencode implementation in Cython',
-    long_description="""""",
+    long_description=open("README.rst", "r").read(),
     author='whtsky',
     author_email='whtsky@gmail.com',
     url='https://github.com/whtsky/bencoder.pyx',
     license="BSDv3",
     platforms=['POSIX', 'Windows'],
-    keywords=['bencoding', 'encode', 'decode', 'bittorrent'],
+    keywords=['bencoding', 'encode', 'decode', 'bittorrent', 'bencode', 'bencoder', 'cython'],
     classifiers=[
         "Environment :: Other Environment",
         "Intended Audience :: Developers",
