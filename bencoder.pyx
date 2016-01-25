@@ -12,6 +12,15 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
+import sys
+IS_PY2 = sys.version[0] == '2'
+
+if IS_PY2:
+    END_CHAR = 'e'
+else:
+    END_CHAR = ord('e')
+
+
 class BTFailure(Exception):
     pass
 
@@ -39,7 +48,7 @@ def decode_string(bytes x, int f):
 
 def decode_list(bytes x, int f):
     r, f = [], f + 1
-    while x[f] != ord('e'):
+    while x[f] != END_CHAR:
         v, f = decode_func[x[f]](x, f)
         r.append(v)
     return r, f + 1
@@ -47,34 +56,34 @@ def decode_list(bytes x, int f):
 
 def decode_dict(bytes x, int f):
     r, f = {}, f + 1
-    while x[f] != ord('e'):
+    while x[f] != END_CHAR:
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)
     return r, f + 1
 
 
-decode_func = {
-    ord('l'): decode_list,
-    ord('d'): decode_dict,
-    ord('i'): decode_int,
-    ord('1'): decode_string,
-    ord('2'): decode_string,
-    ord('0'): decode_string,
-    ord('3'): decode_string,
-    ord('4'): decode_string,
-    ord('5'): decode_string,
-    ord('6'): decode_string,
-    ord('7'): decode_string,
-    ord('8'): decode_string,
-    ord('9'): decode_string,
-}
+decode_func = dict()
+
+for func, keys in [
+    (decode_list, 'l'),
+    (decode_dict, 'd'),
+    (decode_int, 'i'),
+    (decode_string, [str(x) for x in range(10)])
+]:
+    for key in keys:
+        if IS_PY2:
+            decode_func[key] = func
+        else:
+            decode_func[ord(key)] = func
+
 
 
 def bdecode(bytes x):
     try:
         r, l = decode_func[x[0]](x, 0)
-    except (IndexError, KeyError, ValueError):
-        raise BTFailure("not a valid bencoded string")
+    except (IndexError, KeyError, ValueError) as e:
+        raise e
+#        raise BTFailure("not a valid bencoded string")
     if l != len(x):
         raise BTFailure("invalid bencoded value (data after valid prefix)")
     return r
