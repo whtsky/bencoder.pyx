@@ -1,14 +1,17 @@
 language: python
 python:
-- 2.6
-- 2.7
-- 3.3
-- 3.4
-- 3.5
-- pypy
-before_install: pip install Cython
+ - 2.6
+ - 2.7
+ - 3.3
+ - 3.4
+ - 3.5
+ - pypy
+
+before_install: pip install Cython wheel
 install: python setup.py install
 script: nosetests
+
+
 deploy:
   provider: pypi
   user: whtsky
@@ -16,5 +19,5 @@ deploy:
     secure: oJHIc5HduttkeWPJDgXWKqFLxB51BecWw0gs/A57YbMRMIfNYWRFbUdPDKewSQ5NpNymVsd3kDTJzO/MvFqLlKnjHFPwxOjABXPBLos1TT6sWXTqjNnpMIXyGMDqfElyvoCA4RYMYMXMZeCQGxbJ5VBUssDy47XrUCvO7BxGfWeI6a5JiJ+tFu4JbIGAe6H0UoVIFpeKYSFanJmktoK7itYG0VkHTxvgNZBWd04HXF4ynV10NBcIxUUGwNk9u2Z3qqbgYD7QtKXGNrUISQrZu3DqMTh7MZXQ+xC2mOPqHfQoFMRU/JDhOx6Ud7/Sa2AZP2JXuOa5a2kp9rQkWBeVMNtdLEni5vB5LCtW5ra+1OPcvILXm8ohbHlaigWMK+IzETNlmXRbzjmcLcv6A9ieZ7Tm6DNAlTAW/+i4wPUnbQ/BM/o9U5zwCI1xbWVoxy5Q0TiH6IaW2PgS233aqD0/7uxdewHtBVJ0f0x7AJr0SFt7C6z9gPpVIa3l3apXmQ1JjLnxwjdARxZpmmXn76YqRx3bWalDKIfhFQdU2DI9z9GSt4Na1k4S8kUIYwTeSC9xA/OkeV7O1qZZ6kcAf54xVeB0AFwvUmGA2QG3YHs7SCwzOvQgP+uVMAq3F7mGFdAj+ZmDlZwic4+Wpw35hUJSxmqOPeBkPBB8GTRCQ0Ym5Rk=
   on:
     tags: true
-    distributions: sdist bdist_wheel
+    distributions: "sdist bdist_wheel"
     repo: whtsky/bencoder.pyx
