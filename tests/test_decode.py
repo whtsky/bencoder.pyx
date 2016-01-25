@@ -33,7 +33,12 @@ def test_encode_complex():
 
 
 def test_decode_debian_torrent():
-    with open("debian-8.3.0-amd64-netinst.iso.torrent", "rb") as f:
+    import os
+    torrent_path = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            "debian-8.3.0-amd64-netinst.iso.torrent"
+    )
+    with open(torrent_path, "rb") as f:
         torrent = bdecode(f.read())
     assert torrent[b'announce'] == b'http://bttracker.debian.org:6969/announce'
     assert torrent[b'comment'] == b'"Debian CD from cdimage.debian.org"'
