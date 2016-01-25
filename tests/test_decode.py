@@ -30,3 +30,10 @@ def test_encode_complex():
     od[b'KeyD'] = b'AString'
     expected_result = b'd4:KeyAl9:listitemAd1:k1:vei3ee4:KeyBd1:k1:ve4:KeyCi3e4:KeyD7:AStringe'
     assert bdecode(expected_result) == od
+
+
+def test_decode_debian_torrent():
+    with open("debian-8.3.0-amd64-netinst.iso.torrent", "rb") as f:
+        torrent = bdecode(f.read())
+    assert torrent[b'announce'] == b'http://bttracker.debian.org:6969/announce'
+    assert torrent[b'comment'] == b'"Debian CD from cdimage.debian.org"'
