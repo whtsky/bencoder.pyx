@@ -1,7 +1,5 @@
 language: python
 
-cache: pip
-
 python:
   - 2.6
   - 2.7
@@ -10,14 +8,6 @@ python:
   - 3.5
   - pypy
 
-before_install: pip install Cython wheel
+before_install: pip install Cython
 install: python setup.py install
 script: nosetests
-
-before_deploy:
-  - pip install wheel twine
-  - openssl aes-256-cbc -K $encrypted_3f7a4ebdecc4_key -iv $encrypted_3f7a4ebdecc4_iv -in .pypirc.enc -out ~/.pypirc -d
-
-deploy:
-  provider: script
-  script: release.sh
