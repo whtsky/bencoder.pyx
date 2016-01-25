@@ -6,6 +6,9 @@ A fast bencode implementation in Cython supports both Python2 & Python3 .
 .. image:: https://travis-ci.org/whtsky/bencoder.pyx.svg?branch=master
     :target: https://travis-ci.org/whtsky/bencoder.pyx
 
+.. image:: https://ci.appveyor.com/api/projects/status/ur6vy8wdj789oxqv/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/whtsky/bencoder-pyx
+
 Install
 -------
 
