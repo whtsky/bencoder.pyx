@@ -1,4 +1,4 @@
-#cython: language_level=3
+# cython: language_level=3
 
 # The contents of this file are subject to the BitTorrent Open Source License
 # Version 1.1 (the License).  You may not copy or use this file, in either
@@ -11,6 +11,8 @@
 # License.
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
+
+__version__ = '1.0.0'
 
 import sys
 IS_PY2 = sys.version[0] == '2'
@@ -77,13 +79,11 @@ for func, keys in [
             decode_func[ord(key)] = func
 
 
-
 def bdecode(bytes x):
     try:
         r, l = decode_func[x[0]](x, 0)
-    except (IndexError, KeyError, ValueError) as e:
-        raise e
-#        raise BTFailure("not a valid bencoded string")
+    except (IndexError, KeyError, ValueError):
+        raise BTFailure("not a valid bencoded string")
     if l != len(x):
         raise BTFailure("invalid bencoded value (data after valid prefix)")
     return r
