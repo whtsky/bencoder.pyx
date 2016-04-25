@@ -2,16 +2,6 @@ import sys
 
 from setuptools import setup
 from setuptools.extension import Extension
-from setuptools.dist import Distribution
-Distribution(dict(setup_requires='Cython'))
-
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    print('Could not import Cython.Distutils. Install `cython` and rerun.')
-    sys.exit(1)
-
-ext_modules = [Extension('bencoder', ['bencoder.pyx'])]
 
 setup(
     name='bencoder.pyx',
@@ -44,9 +34,7 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    cmdclass={'build_ext': build_ext},
-    ext_modules=ext_modules,
-    setup_requires=['Cython'],
+    ext_modules=[Extension('bencoder', ['bencoder.c'])],
     tests_require=['nose'],
     test_suite='nose.collector',
 )
