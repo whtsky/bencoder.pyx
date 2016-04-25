@@ -10,7 +10,7 @@ if version < ('2', '7'):
 
 setup(
     name='bencoder.pyx',
-    version='1.0.0',
+    version='1.1.0',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
