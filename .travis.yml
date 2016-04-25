@@ -8,5 +8,8 @@ python:
   - 3.5
   - pypy
 
-install: python setup.py install
+install:
+  - pip install cython
+  - cython bencoder.pyx
+  - python setup.py install
 script: nosetests

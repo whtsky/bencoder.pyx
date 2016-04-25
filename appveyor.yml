@@ -78,10 +78,11 @@ install:
 
   # Upgrade to the latest version of pip to avoid it displaying warnings
   # about it being out of date.
-  - "pip install --disable-pip-version-check --user --upgrade pip wheel"
+  - "pip install --disable-pip-version-check --user --upgrade pip wheel cython"
 
 build_script:
   # Build the compiled extension
+  - "%CMD_IN_ENV% cython bencoder.pyx"
   - "%CMD_IN_ENV% python setup.py install"
 
 test_script:
