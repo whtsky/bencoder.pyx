@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from bencoder import bdecode
+import os
+
+TORRENT_PATH = os.path.join(
+    os.path.abspath(os.path.dirname(__file__)),
+    "debian-8.3.0-amd64-netinst.iso.torrent"
+)
 
 
 def test_decode_str():
@@ -22,6 +28,15 @@ def test_decode_dict():
     assert bdecode(b'd2:ka2:va2:kbi2ee') == od
 
 
+def test_ordered_dict():
+    from bencoder import OrderedDict
+    rv = bdecode(b'd2:ka2:va2:kbi2ee')
+    assert isinstance(rv, OrderedDict)
+    assert list(rv.keys()) == [b'ka', b'kb']
+    assert list(bdecode(b'd2:kc2:va2:kei2ee').keys()) == [b'kc', b'ke']
+    assert list(bdecode(b'd2:ke2:va2:kci2ee').keys()) == [b'ke', b'kc']
+
+
 def test_encode_complex():
     od = dict()
     od[b'KeyA'] = [b'listitemA', {b'k': b'v'}, 3]
@@ -33,12 +48,7 @@ def test_encode_complex():
 
 
 def test_decode_debian_torrent():
-    import os
-    torrent_path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)),
-            "debian-8.3.0-amd64-netinst.iso.torrent"
-    )
-    with open(torrent_path, "rb") as f:
+    with open(TORRENT_PATH, "rb") as f:
         torrent = bdecode(f.read())
     assert torrent[b'announce'] == b'http://bttracker.debian.org:6969/announce'
     assert torrent[b'comment'] == b'"Debian CD from cdimage.debian.org"'
