@@ -24,6 +24,7 @@ setup(
     license='BSDv3',
     platforms=['POSIX', 'Windows'],
     zip_safe=False,
+    include_package_data=True,
     keywords=['bencoding', 'encode', 'decode', 'bittorrent', 'bencode', 'bencoder', 'cython'],
     classifiers=[
         'Environment :: Other Environment',
