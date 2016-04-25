@@ -8,6 +8,5 @@ python:
   - 3.5
   - pypy
 
-before_install: pip install Cython
 install: python setup.py install
 script: nosetests

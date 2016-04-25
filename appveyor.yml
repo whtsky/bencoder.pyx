@@ -80,15 +80,9 @@ install:
   # about it being out of date.
   - "pip install --disable-pip-version-check --user --upgrade pip wheel"
 
-  # Install the build dependencies of the project. If some dependencies contain
-  # compiled extensions and are not provided as pre-built wheel packages,
-  # pip will build them from source using the MSVC compiler matching the
-  # target Python version and architecture
-  - "%CMD_IN_ENV% pip install cython"
-
 build_script:
   # Build the compiled extension
-  - "%CMD_IN_ENV% python setup.py build"
+  - "%CMD_IN_ENV% python setup.py install"
 
 test_script:
   # Run the project tests
