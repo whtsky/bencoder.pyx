@@ -17,6 +17,11 @@ __version__ = '1.0.0'
 import sys
 IS_PY2 = sys.version[0] == '2'
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 if IS_PY2:
     END_CHAR = 'e'
 else:
@@ -57,7 +62,7 @@ def decode_list(bytes x, int f):
 
 
 def decode_dict(bytes x, int f):
-    r, f = {}, f + 1
+    r, f = OrderedDict(), f + 1
     while x[f] != END_CHAR:
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)

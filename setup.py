@@ -1,7 +1,12 @@
-import sys
+import platform
 
 from setuptools import setup
 from setuptools.extension import Extension
+
+version = platform.python_version_tuple()
+install_requires = []
+if version < ('2', '7'):
+    install_requires.append('ordereddict>=1.1')
 
 setup(
     name='bencoder.pyx',
@@ -35,6 +40,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     ext_modules=[Extension('bencoder', ['bencoder.c'])],
+    install_requires=install_requires,
     tests_require=['nose'],
     test_suite='nose.collector',
 )
