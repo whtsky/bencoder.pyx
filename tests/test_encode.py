@@ -39,6 +39,16 @@ def test_encode_dict():
     assert bencode(od) == b'd2:ka2:va2:kbi2ee'
 
 
+def test_encode_dict_subclass():
+    class AAA(dict):
+        pass
+
+    od = dict()
+    od['ka'] = 'va'
+    od['kb'] = 2
+    assert bencode(od) == b'd2:ka2:va2:kbi2ee'
+
+
 def test_encode_complex():
     od = dict()
     od['KeyA'] = ['listitemA', {'k': 'v'}, 3]
