@@ -17,6 +17,11 @@ __version__ = '1.0.0'
 import sys
 IS_PY2 = sys.version[0] == '2'
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 if IS_PY2:
     END_CHAR = 'e'
 else:
@@ -57,7 +62,7 @@ def decode_list(bytes x, int f):
 
 
 def decode_dict(bytes x, int f):
-    r, f = {}, f + 1
+    r, f = OrderedDict(), f + 1
     while x[f] != END_CHAR:
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)
@@ -89,6 +94,18 @@ def bdecode(bytes x):
     return r
 
 
+def encode(v, r):
+    tp = type(v)
+    if tp in encode_func:
+        return encode_func[tp](v, r)
+    else:
+        for tp, func in encode_func.items():
+            if isinstance(v, tp):
+                return func(v, r)
+    raise BTFailure("Unknown Type: %s" % tp)
+
+
+
 def encode_int(int x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
@@ -109,11 +126,11 @@ def encode_string(x, list r):
 def encode_list(x, list r):
     r.append(b'l')
     for i in x:
-        encode_func[type(i)](i, r)
+        encode(i, r)
     r.append(b'e')
 
 
-def encode_dict(dict x, list r):
+def encode_dict(x, list r):
     r.append(b'd')
     item_list = list(x.items())
     item_list.sort()
@@ -121,7 +138,7 @@ def encode_dict(dict x, list r):
         if isinstance(k, str):
             k = k.encode()
         r.extend((str(len(k)).encode(), b':', k))
-        encode_func[type(v)](v, r)
+        encode(v, r)
     r.append(b'e')
 
 
@@ -132,11 +149,12 @@ encode_func = {
     list: encode_list,
     tuple: encode_list,
     dict: encode_dict,
+    OrderedDict: encode_dict,
     bool: encode_bool,
 }
 
 
 def bencode(x):
     r = []
-    encode_func[type(x)](x, r)
+    encode(x, r)
     return b''.join(r)

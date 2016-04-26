@@ -1,21 +1,16 @@
-import sys
+import platform
 
 from setuptools import setup
 from setuptools.extension import Extension
-from setuptools.dist import Distribution
-Distribution(dict(setup_requires='Cython'))
 
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    print('Could not import Cython.Distutils. Install `cython` and rerun.')
-    sys.exit(1)
-
-ext_modules = [Extension('bencoder', ['bencoder.pyx'])]
+version = platform.python_version_tuple()
+install_requires = []
+if version < ('2', '7'):
+    install_requires.append('ordereddict>=1.1')
 
 setup(
     name='bencoder.pyx',
-    version='1.0.0',
+    version='1.1.0',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
@@ -44,9 +39,8 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    cmdclass={'build_ext': build_ext},
-    ext_modules=ext_modules,
-    setup_requires=['Cython'],
+    ext_modules=[Extension('bencoder', ['bencoder.c'])],
+    install_requires=install_requires,
     tests_require=['nose'],
     test_suite='nose.collector',
 )

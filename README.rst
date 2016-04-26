@@ -32,3 +32,12 @@ Usage
     with open("debian-8.3.0-amd64-netinst.iso.torrent", "rb") as f:
         torrent = bdecode(f.read())
         print(torrent['announce'])
+
+ChangeLog
+----------
+
+Version 1.1.0
+~~~~~~~~~~~~~~~
+
++ Use OrderedDict instaed of dict
++ Support encoding subclasses of dict
