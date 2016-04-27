@@ -8,6 +8,13 @@ install_requires = []
 if version < ('2', '7'):
     install_requires.append('ordereddict>=1.1')
 
+try:
+    from Cython.Build import cythonize
+    ext_modules = cythonize("bencoder.pyx")
+except ImportError:
+    ext_modules = [Extension('bencoder', ['bencoder.c'])]
+
+
 setup(
     name='bencoder.pyx',
     version='1.1.0',
@@ -39,7 +46,7 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    ext_modules=[Extension('bencoder', ['bencoder.c'])],
+    ext_modules=ext_modules,
     install_requires=install_requires,
     tests_require=['nose'],
     test_suite='nose.collector',
