@@ -3,26 +3,24 @@ language:
 
 env:
   matrix:
-    - VERSION=2.6
-    - VERSION=2.7
-    - VERSION=3.3
-    - VERSION=3.4
-    - VERSION=3.5
+    - VERSION=2.6.6
+    - VERSION=2.7.11
+    - VERSION=3.3.5
+    - VERSION=3.4.4
+    - VERSION=3.5.1
 
 install:
-  - source terryfy/travis_tools.sh
   - source terryfy/library_installers.sh
   - clean_builds
   - get_python_environment macpython $VERSION venv
   - pip install --upgrade pip wheel cython
-  - pip wheel .
 
 script:
   - python setup.py test
 
 after_success:
   - pip wheel . -w wheelhouse/
-  - ls
+  - ls wheelhouse/
 
 deploy:
   provider: releases
