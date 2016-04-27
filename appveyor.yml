@@ -66,7 +66,6 @@ install:
   - "%PYTHON%\\Scripts\\pip install --disable-pip-version-check --user --upgrade pip wheel cython"
 
 build_script:
-  - "%PYTHON%\\Scripts\\cython bencoder.pyx"
   - "%PYTHON%\\python setup.py install"
 
 test_script:
