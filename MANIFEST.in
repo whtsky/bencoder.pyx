@@ -1,2 +1,2 @@
-include README.rst LICENSE
+include bencoder.pyx README.rst LICENSE
 recursive-include tests *
