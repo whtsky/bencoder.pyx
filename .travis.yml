@@ -1,18 +1,29 @@
-matrix:
-  include:
-  - sudo: required
-    services:
-    - docker
-    env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-  - sudo: required
-    services:
-    - docker
-    env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686 PRE_CMD=linux32
+language:
+  - objective-c
+
+env:
+  matrix:
+    - VERSION=2.6
+    - VERSION=2.7
+    - VERSION=3.3
+    - VERSION=3.4
+    - VERSION=3.5
+
 install:
-- docker pull $DOCKER_IMAGE
+  - source terryfy/travis_tools.sh
+  - source terryfy/library_installers.sh
+  - clean_builds
+  - get_python_environment macpython $VERSION venv
+  - pip install --upgrade pip wheel cython
+  - pip wheel .
+
 script:
-- docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/build-wheels.sh
-- ls wheelhouse/
+  - python setup.py test
+
+after_success:
+  - pip wheel . -w wheelhouse/
+  - ls
+
 deploy:
   provider: releases
   api_key:
