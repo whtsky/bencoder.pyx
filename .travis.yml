@@ -1,31 +1,38 @@
-language:
-  - objective-c
-
-env:
-  matrix:
-    - VERSION=2.7.11
-    - VERSION=3.3.5
-    - VERSION=3.4.4
-    - VERSION=3.5.1
+matrix:
+  include:
+    - sudo: required
+      os: linux
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+    - sudo: required
+      os: linux
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+           PRE_CMD=linux32
+    - os: osx
+      env:
+        matrix:
+          - VERSION=2.7.11
+          - VERSION=3.3.5
+          - VERSION=3.4.4
+          - VERSION=3.5.1
 
 install:
-  - source terryfy/library_installers.sh
-  - clean_builds
-  - get_python_environment macpython $VERSION venv
-  - pip install --upgrade pip wheel cython
+  - ./travis-install.sh
 
 script:
-  - python setup.py test
+  - ./travis-script.sh
 
 after_success:
-  - pip wheel . -w wheelhouse/
   - ls wheelhouse/
 
 deploy:
   provider: releases
   api_key:
     secure: PQSvEpo4Ec3u52FflZsc4M+RLGpToh3w6ej+XwEYKaSsfdXSAA936gXx7BWYy0rZrPT3RFfUjb63wGTfM3sf54cbvVMViPd/7L3DnYPaSsO1lCKdHPkcXV9tXHcWjDw7o0E9dviWXcpptR4Z7z73pE4yYY06e+SzBpROpiWSl9fB62I+DkIvBtfKjcLkvsSf86gtuysTw+v5aeqWtusHuRETI2/mtYwKu3ERICWzWzn9kWL4EWf+2y9uXFa8oz7faUsdK1uxc9xDMJLXtIErg71+Lg0s2KqduOmmGSB03APxMe0/4sh8+Do9yEdh677VGV4KbY5qzeKffjXEFp7Wj7ZG+w1WsmnxTHKiuFdJRbswuSHZhnf3EHiBbC0vwHAPuHp7720bdtTH0GmhniSLu6FnZohbnSaDlTXJaXgqxuDMyrVE5lSjMy1v/hUW6tj6ewQmpcheXMgpArX3fNiUNzHgFp21wTznHAlo+E4q7JC9a5QaV/uONbiLgETqlirRz0jTMfKxp6xQUjEJU6jE1anLVO9JuZkb9PqN99TFjrlzv6TPhSQnzVausQD/VouHYJUXer4yuK7OHZO4JoVm8iSfleQ4XaNnxzU4U6CRzJnaGJfSSa4u9kdoAI7bVvxF0hEQ9vDEV4F8Ze6aIAX5/v8G919x+hvkGjURACuR7oE=
-  file: wheelhouse/*.whl
+  file: wheelhouse/bencoder*.whl
   file_glob: true
   skip_cleanup: true
   on:
