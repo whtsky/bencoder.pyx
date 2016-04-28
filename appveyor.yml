@@ -63,7 +63,8 @@ install:
   # Install Python (from the official .msi of http://python.org) and pip when
   # not already installed.
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
-  - "%PYTHON%\\Scripts\\pip install --disable-pip-version-check --user --upgrade pip wheel cython"
+  - "%PYTHON%\\Scripts\\pip install --disable-pip-version-check --user --upgrade pip wheel"
+  - "%PYTHON%\\Scripts\\pip install --user cython"
 
 build_script:
   - "%PYTHON%\\python setup.py install"
