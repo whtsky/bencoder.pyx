@@ -26,6 +26,8 @@ deploy:
   api_key:
     secure: PQSvEpo4Ec3u52FflZsc4M+RLGpToh3w6ej+XwEYKaSsfdXSAA936gXx7BWYy0rZrPT3RFfUjb63wGTfM3sf54cbvVMViPd/7L3DnYPaSsO1lCKdHPkcXV9tXHcWjDw7o0E9dviWXcpptR4Z7z73pE4yYY06e+SzBpROpiWSl9fB62I+DkIvBtfKjcLkvsSf86gtuysTw+v5aeqWtusHuRETI2/mtYwKu3ERICWzWzn9kWL4EWf+2y9uXFa8oz7faUsdK1uxc9xDMJLXtIErg71+Lg0s2KqduOmmGSB03APxMe0/4sh8+Do9yEdh677VGV4KbY5qzeKffjXEFp7Wj7ZG+w1WsmnxTHKiuFdJRbswuSHZhnf3EHiBbC0vwHAPuHp7720bdtTH0GmhniSLu6FnZohbnSaDlTXJaXgqxuDMyrVE5lSjMy1v/hUW6tj6ewQmpcheXMgpArX3fNiUNzHgFp21wTznHAlo+E4q7JC9a5QaV/uONbiLgETqlirRz0jTMfKxp6xQUjEJU6jE1anLVO9JuZkb9PqN99TFjrlzv6TPhSQnzVausQD/VouHYJUXer4yuK7OHZO4JoVm8iSfleQ4XaNnxzU4U6CRzJnaGJfSSa4u9kdoAI7bVvxF0hEQ9vDEV4F8Ze6aIAX5/v8G919x+hvkGjURACuR7oE=
   file: wheelhouse/*.whl
+  file_glob: true
   skip_cleanup: true
   on:
+    tags: true
     repo: whtsky/bencoder.pyx
