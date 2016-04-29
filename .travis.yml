@@ -21,10 +21,10 @@ matrix:
       env: VERSION=3.5
 
 install:
-  - ./travis-install.sh
+  - source travis-install.sh
 
 script:
-  - ./travis-script.sh
+  - source travis-script.sh
 
 after_success:
   - ls wheelhouse/
