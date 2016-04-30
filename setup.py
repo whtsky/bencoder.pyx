@@ -1,3 +1,4 @@
+import os.path
 import platform
 
 from setuptools import setup
@@ -8,11 +9,16 @@ install_requires = []
 if version < ('2', '7'):
     install_requires.append('ordereddict>=1.1')
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+
 try:
     from Cython.Build import cythonize
-    ext_modules = cythonize("bencoder.pyx")
+    ext_modules = cythonize(os.path.join(base_path, "bencoder.pyx"))
 except ImportError:
-    ext_modules = [Extension('bencoder', ['bencoder.c'])]
+    ext_modules = [Extension(
+        'bencoder',
+        [os.path.join(base_path, 'bencoder.c')]
+    )]
 
 
 setup(
