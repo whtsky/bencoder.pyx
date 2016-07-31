@@ -21,7 +21,7 @@ def test_decode_int():
 def test_decode_large_int():
     assert bdecode(b'i1455189890e') == 1455189890
     assert bdecode(b'i25735241490e') == 25735241490
-    assert bdecode(b'i%de' % sys.maxsize) == sys.maxsize
+    assert bdecode(('i%de' % sys.maxsize).encode()) == sys.maxsize
 
 
 def test_decode_list():

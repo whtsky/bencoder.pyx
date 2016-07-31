@@ -21,7 +21,7 @@ def test_encode_int():
 def test_encode_large_int():
     assert bencode(1455189890) == b'i1455189890e'
     assert bencode(25735241490) == b'i25735241490e'
-    assert bencode(sys.maxsize) == b'i%de' % sys.maxsize
+    assert bencode(sys.maxsize) == ('i%de' % sys.maxsize).encode()
 
 
 def test_encode_bytes():
