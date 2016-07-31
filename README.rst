@@ -3,11 +3,12 @@ Bencoder.pyx
 
 A fast bencode implementation in Cython supports both Python2 & Python3 .
 
-.. image:: https://travis-ci.org/whtsky/bencoder.pyx.svg?branch=master
+.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=macOS
     :target: https://travis-ci.org/whtsky/bencoder.pyx
-
-.. image:: https://ci.appveyor.com/api/projects/status/ur6vy8wdj789oxqv/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/whtsky/bencoder-pyx
+.. image:: https://img.shields.io/appveyor/ci/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=Windows
+    :target: https://ci.appveyor.com/project/whtsky/bencoder.pyx
+.. image:: https://semaphoreci.com/api/v1/whtsky/bencoder-pyx/branches/master/shields_badge.svg
+    :target: https://semaphoreci.com/whtsky/bencoder-pyx
 
 Install
 -------
