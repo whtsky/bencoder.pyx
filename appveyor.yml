@@ -1,3 +1,5 @@
+version: '{branch}-{build}'
+
 environment:
   password:
     secure: pp1j5lAB9NN8ZDasgY+oxoGrNw0+4gGzbNZmHVwJkCzUyrNBP5ZIuCrwjmx4q6ifg7RMiE3bVt9MljFCJh3XpsvVOAcx+AGKsHSjtXd40HM=
@@ -47,6 +49,10 @@ build_script:
 
 test_script:
   - "python setup.py test"
+
+on_success:
+  - pip install codecov
+  - codecov
 
 deploy_script:
   - echo [distutils]                                  > %USERPROFILE%\\.pypirc

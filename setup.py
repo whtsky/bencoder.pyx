@@ -1,4 +1,5 @@
 import os.path
+import sys
 import platform
 
 from setuptools import setup
@@ -11,10 +12,19 @@ if version < ('2', '7'):
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
-try:
+if sys.argv[-1] == 'test':
+    from Cython.Compiler.Options import directive_defaults
+
+    directive_defaults['linetrace'] = True
+    directive_defaults['binding'] = True
+
     from Cython.Build import cythonize
-    ext_modules = cythonize(os.path.join(base_path, "bencoder.pyx"))
-except ImportError:
+    ext_modules = cythonize(Extension(
+        "bencoder",
+        ["bencoder.pyx"],
+        define_macros=[('CYTHON_TRACE', '1')] 
+    ))
+else:
     ext_modules = [Extension(
         'bencoder',
         [os.path.join(base_path, 'bencoder.c')]
@@ -54,6 +64,8 @@ setup(
     ],
     ext_modules=ext_modules,
     install_requires=install_requires,
-    tests_require=['nose'],
-    test_suite='nose.collector',
+    setup_requires=[
+        'pytest-runner',
+    ],
+    tests_require=['pytest', 'pytest-cov'],
 )
