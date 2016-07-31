@@ -1,48 +1,40 @@
 environment:
+  password:
+    secure: pp1j5lAB9NN8ZDasgY+oxoGrNw0+4gGzbNZmHVwJkCzUyrNBP5ZIuCrwjmx4q6ifg7RMiE3bVt9MljFCJh3XpsvVOAcx+AGKsHSjtXd40HM=
+
   matrix:
+    - PYTHON: "C:\\Python26"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "C:\\Python26-x64"
+      PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.9
       PYTHON_ARCH: "32"
 
     - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.9
       PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python33"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
       PYTHON_ARCH: "32"
 
     - PYTHON: "C:\\Python33-x64"
-      PYTHON_VERSION: "3.3.x" # currently 3.3.5
       PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4.x" # currently 3.4.3
       PYTHON_ARCH: "32"
 
     - PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.x" # currently 3.4.3
-      PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python266"
-      PYTHON_VERSION: "2.6.6"
-      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python266-x64"
-      PYTHON_VERSION: "2.6.6"
       PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5.0"
       PYTHON_ARCH: "32"
 
     - PYTHON: "C:\\Python35-x64"
-      PYTHON_VERSION: "3.5.0"
       PYTHON_ARCH: "64"
 
 init:
-  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
+  - "ECHO Python %PYTHON%"
 
 install:
   - "%PYTHON%\\Scripts\\pip install --disable-pip-version-check --user --upgrade pip wheel"
@@ -54,13 +46,15 @@ build_script:
 test_script:
   - "%PYTHON%\\python setup.py test"
 
-after_test:
-  - "%PYTHON%\\python setup.py bdist_wheel"
-  - ps: "ls dist"
+deploy_script:
+  - echo [distutils]                                  > %USERPROFILE%\\.pypirc
+  - echo index-servers =                             >> %USERPROFILE%\\.pypirc
+  - echo     pypi                                    >> %USERPROFILE%\\.pypirc
+  - echo [pypi]                                      >> %USERPROFILE%\\.pypirc
+  - echo username=whtsky                             >> %USERPROFILE%\\.pypirc
+  - echo password=%password%                         >> %USERPROFILE%\\.pypirc
+  - set HOME=%USERPROFILE%
+  - pip install wheel
+  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { python -W ignore setup.py bdist_wheel upload }
 
-artifacts:
-  - path: dist\*
-
-#on_success:
-#  - TODO: upload the content of dist/*.whl to a public wheelhouse
-#
+deploy : on

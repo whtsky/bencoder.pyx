@@ -6,6 +6,7 @@ env:
   - VERSION=3.5
 
 install:
+  - git clone https://github.com/MacPython/terryfy.git
   - source terryfy/library_installers.sh
   - clean_builds
   - get_python_environment macpython $VERSION venv
