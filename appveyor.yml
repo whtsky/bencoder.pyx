@@ -1,5 +1,6 @@
 version: '{branch}-{build}'
-
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
 environment:
   password:
     secure: pp1j5lAB9NN8ZDasgY+oxoGrNw0+4gGzbNZmHVwJkCzUyrNBP5ZIuCrwjmx4q6ifg7RMiE3bVt9MljFCJh3XpsvVOAcx+AGKsHSjtXd40HM=
@@ -41,8 +42,8 @@ init:
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\scripts;%PATH%"
   - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
-  - "pip install --disable-pip-version-check --user --upgrade pip wheel"
-  - "pip install --user -r dev-requirements.txt"
+  - "pip install --upgrade pip wheel"
+  - "pip install -r dev-requirements.txt"
 
 build_script:
   - "cython bencoder.pyx"
