@@ -1,4 +1,6 @@
 os: osx
+language: generic
+osx_image: beta-xcode6.2  # OS X 10.9
 env:
   - VERSION=2.7
   - VERSION=3.3
