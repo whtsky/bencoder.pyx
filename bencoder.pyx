@@ -12,7 +12,7 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '1.0.0'
+__version__ = '1.1.2'
 
 import sys
 IS_PY2 = sys.version[0] == '2'
@@ -106,7 +106,7 @@ def encode(v, r):
 
 
 
-def encode_int(int x, list r):
+def encode_int(x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
 

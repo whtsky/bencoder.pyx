@@ -23,7 +23,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.1.1',
+    version='1.1.2',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',

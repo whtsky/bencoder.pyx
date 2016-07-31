@@ -36,6 +36,11 @@ Usage
 ChangeLog
 ----------
 
+Version 1.1.2
+~~~~~~~~~~~~~~~
+
++ Support encode large int
+
 Version 1.1.0
 ~~~~~~~~~~~~~~~
 
