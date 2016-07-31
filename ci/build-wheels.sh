@@ -10,9 +10,11 @@ for PYBIN in /opt/python/*/bin/; do
 done
 
 # Bundle external shared libraries into the wheels
-for whl in /tmp/wheelhouse/*.whl; do
+for whl in /tmp/wheelhouse/bencoder*.whl; do
     auditwheel repair $whl -w /io/wheelhouse/
 done
+
+cp /tmp/wheelhouse/ordereddict* /io/wheelhouse
 
 # Install packages and test
 for PYBIN in /opt/python/*/bin/; do
