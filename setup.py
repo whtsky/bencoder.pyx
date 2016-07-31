@@ -67,5 +67,5 @@ setup(
     setup_requires=[
         'pytest-runner',
     ],
-    tests_require=['pytest', 'pytest-cov'],
+    tests_require=['cython', 'pytest', 'pytest-cov'],
 )

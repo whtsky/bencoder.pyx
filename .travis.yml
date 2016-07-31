@@ -12,7 +12,8 @@ install:
   - source terryfy/library_installers.sh
   - clean_builds
   - get_python_environment macpython $VERSION venv
-  - pip install --upgrade pip wheel cython
+  - pip install --upgrade pip wheel
+  - pip install -r dev-requirements.txt
 
 script:
   - python setup.py test
