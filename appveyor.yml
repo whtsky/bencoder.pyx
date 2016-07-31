@@ -37,14 +37,16 @@ init:
   - "ECHO Python %PYTHON%"
 
 install:
-  - "%PYTHON%\\Scripts\\pip install --disable-pip-version-check --user --upgrade pip wheel"
-  - "%PYTHON%\\Scripts\\pip install --user cython"
+  - "SET PATH=%PYTHON%;%PYTHON%\\scripts;%PATH%"
+  - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
+  - "pip install --disable-pip-version-check --user --upgrade pip wheel"
+  - "pip install --user cython"
 
 build_script:
-  - "%PYTHON%\\python setup.py install"
+  - "python setup.py install"
 
 test_script:
-  - "%PYTHON%\\python setup.py test"
+  - "python setup.py test"
 
 deploy_script:
   - echo [distutils]                                  > %USERPROFILE%\\.pypirc
@@ -54,6 +56,6 @@ deploy_script:
   - echo username=whtsky                             >> %USERPROFILE%\\.pypirc
   - echo password=%password%                         >> %USERPROFILE%\\.pypirc
   - set HOME=%USERPROFILE%
-  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { "%PYTHON%\\python -W ignore setup.py bdist_wheel upload" }
+  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { "python -W ignore setup.py bdist_wheel upload" }
 
 deploy : on
