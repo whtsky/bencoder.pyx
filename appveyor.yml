@@ -2,20 +2,17 @@ version: '{branch}-{build}'
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 environment:
-  PYTHON: C:\Python35
   password:
     secure: pp1j5lAB9NN8ZDasgY+oxoGrNw0+4gGzbNZmHVwJkCzUyrNBP5ZIuCrwjmx4q6ifg7RMiE3bVt9MljFCJh3XpsvVOAcx+AGKsHSjtXd40HM=
-cache:
-  - '%LOCALAPPDATA%\pip\Cache'
 init:
   - ps: "ls C:/Python*"
 
 install:
   - choco install python.pypy > pypy-inst.log 2>&1 || (type pypy-inst.log & exit /b 1)
-  - "SET PATH=C:\tools\pypy\pypy;%PYTHON%;%PYTHON%\\scripts;%PATH%"
+  - SET PATH=C:\tools\pypy\pypy;C:\Python35;C:\Python35\scripts;%PATH%
   - pip install tox
   - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
-  - "pip install -r dev-requirements.txt"
+  - pip install -r dev-requirements.txt
 
 build: off
 

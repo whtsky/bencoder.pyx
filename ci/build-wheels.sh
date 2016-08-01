@@ -3,21 +3,9 @@ set -e -x
 
 cd /io
 
-# tests
-for PYBIN in /opt/python/*/bin/; do
-    ${PYBIN}/pip install -r /io/dev-requirements.txt
-    ${PYBIN}/python setup.py test
-    pwd
-    ls
-    rm *.so
-done
-
-rm bencoder.c
-
 # compile wheels
 for PYBIN in /opt/python/*/bin/; do
-    ${PYBIN}/pip install -r /io/dev-requirements.txt
-    ${PYBIN}/cython bencoder.pyx
+    ${PYBIN}/pip install cython
     ${PYBIN}/pip wheel /io/ -w /tmp/wheelhouse/
 done
 
@@ -31,5 +19,6 @@ cp /tmp/wheelhouse/ordereddict* /io/wheelhouse
 # Install packages and test again
 for PYBIN in /opt/python/*/bin/; do
     ${PYBIN}/pip install bencoder.pyx --no-index -f /io/wheelhouse
-    (cd $/io; ${PYBIN}/py.test)
+    ${PYBIN}/pip install pytest
+    (cd /io; ${PYBIN}/py.test -c pytest-nocov.ini)
 done

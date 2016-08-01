@@ -44,13 +44,13 @@ cmdclass = {}
 try:
     from wheel.bdist_wheel import bdist_wheel
 
-    REPLACE = (
-        'macosx_10_6_intel.'
-        'macosx_10_9_intel.'
-        'macosx_10_9_x86_64.'
-        'macosx_10_10_intel.'
-        'macosx_10_10_x86_64'
-    )
+    REPLACE = '.'.join([
+        'macosx_10_6_intel',
+        'macosx_10_9_intel',
+        'macosx_10_9_x86_64',
+        'macosx_10_10_intel',
+        'macosx_10_10_x86_64',
+    ])
 
     class _bdist_wheel(bdist_wheel):
         def get_tag(self):
