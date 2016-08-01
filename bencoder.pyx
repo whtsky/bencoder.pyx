@@ -145,6 +145,7 @@ def encode_dict(x, list r):
 
 encode_func = {
     int: encode_int,
+    long: encode_int,
     bytes: encode_string,
     str: encode_string,
     list: encode_list,
