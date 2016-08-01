@@ -31,7 +31,7 @@ test_script:
   - python setup.py test
 
 after_test:
-  - pip install codecov
+  - pip install codecov wheel
   - codecov
   - del bencoder.c
   - pip wheel . -w wheelhouse/
