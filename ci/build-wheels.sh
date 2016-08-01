@@ -20,5 +20,5 @@ cp /tmp/wheelhouse/ordereddict* /io/wheelhouse
 for PYBIN in /opt/python/*/bin/; do
     ${PYBIN}/pip install bencoder.pyx --no-index -f /io/wheelhouse
     ${PYBIN}/pip install pytest
-    (cd /io; ${PYBIN}/py.test -c pytest-nocov.ini)
+    (cd /io; ${PYBIN}/py.test)
 done
