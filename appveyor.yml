@@ -28,12 +28,13 @@ install:
 build: off
 
 test_script:
+  - pip install codecov
   - python setup.py test
+  - codecov --required
 
 after_test:
-  - pip install codecov wheel
-  - codecov
   - del bencoder.c
+  - pip install wheel
   - pip wheel . -w wheelhouse/
   - ps: "ls wheelhouse/*"
 
