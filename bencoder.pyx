@@ -111,6 +111,10 @@ def encode_int(x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
 
+def encode_long(long x, list r):
+    r.extend((b'i', str(x).encode(), b'e'))
+
+
 def encode_bool(x, list r):
     if x:
         encode_int(1, r)

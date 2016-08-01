@@ -39,6 +39,11 @@ def test_encode_tuple():
     assert bencode(('a', 'b', 3)) == b'l1:a1:bi3ee'
 
 
+def test_encode_bool():
+    assert bencode(True) == bencode(1)
+    assert bencode(False) == bencode(0)
+
+
 def test_encode_dict():
     od = dict()
     od['ka'] = 'va'
