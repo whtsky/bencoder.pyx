@@ -12,7 +12,7 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '1.0.0'
+__version__ = '1.1.2'
 
 import sys
 IS_PY2 = sys.version[0] == '2'
@@ -102,11 +102,12 @@ def encode(v, r):
         for tp, func in encode_func.items():
             if isinstance(v, tp):
                 return func(v, r)
-    raise BTFailure("Unknown Type: %s" % tp)
+    raise BTFailure(
+        "Can't encode {0}(Type: {1})".format(v, type(v))
+    )
 
 
-
-def encode_int(int x, list r):
+def encode_int(x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
 
@@ -144,6 +145,7 @@ def encode_dict(x, list r):
 
 encode_func = {
     int: encode_int,
+    long: encode_int,
     bytes: encode_string,
     str: encode_string,
     list: encode_list,

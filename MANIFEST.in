@@ -1,2 +1,2 @@
-include bencoder.pyx README.rst LICENSE
+include bencoder.c bencoder.pyx README.rst pytest.ini LICENSE
 recursive-include tests *

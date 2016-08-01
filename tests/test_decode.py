@@ -2,6 +2,7 @@
 
 from bencoder import bdecode
 import os
+import sys
 
 TORRENT_PATH = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
@@ -15,6 +16,12 @@ def test_decode_str():
 
 def test_decode_int():
     assert bdecode(b'i233e') == 233
+
+
+def test_decode_large_int():
+    assert bdecode(b'i1455189890e') == 1455189890
+    assert bdecode(b'i25735241490e') == 25735241490
+    assert bdecode(('i%de' % sys.maxsize).encode()) == sys.maxsize
 
 
 def test_decode_list():
