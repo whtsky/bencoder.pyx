@@ -21,6 +21,7 @@ test_script:
 on_success:
   - pip install codecov
   - codecov
+  - del bencoder.c
   - tox -c tox-wheels.ini
 
 deploy_script:
