@@ -34,7 +34,7 @@ after_test:
   - pip install codecov
   - codecov
   - del bencoder.c
-  - python setup.py bdist_wheel
+  - pip wheel . -w wheelhouse/
   - ps: "ls wheelhouse/*"
 
 deploy_script:
