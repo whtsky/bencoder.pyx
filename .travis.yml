@@ -30,7 +30,7 @@ script:
 
 after_success:
   - ls wheelhouse/
-  - bash <(curl -s https://codecov.io/bash)
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 deploy:
   provider: releases
