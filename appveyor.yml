@@ -34,4 +34,6 @@ deploy_script:
   - pip install twine
   - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { "twine upload wheelhouse/bencoder*.whl" }
 
-deploy : on
+
+artifacts:
+  - path: wheelhouse/bencoder*.whl

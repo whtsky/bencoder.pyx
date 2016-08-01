@@ -5,7 +5,7 @@ env:
   - VERSION=3.3
   - VERSION=3.4
   - VERSION=3.5
-
+secure: "R5OivfMMAw1BhdwbBjEjfxhkqtj+Ntqf+jh+05Mr3y1aV8tC9J1vsq213Q7J7teweJ7WteHSj8ymJk2DdJ5mOIFEPAWQeuUIzcaplmfmsxYNdUhj19Ok8E8XG+ppBHccDaS3eE6GM6tDB9PouOE0MGA8/j9DLHXDSPTrjO/+G+AQ7V9M2+XqiEHJrPhlzas1h37XKLa5EzMIMK3atoUS1CLg6JOa+Rgz9OfXs+wQyErdQ5BjNfzZH4BKFhHl1zBViPv+j3SHDkyFw92mbXx14qn8xiyY3ZtKisMKT/X5o8DUJbWN3OdFF65NQq5lcnTFjIx06LJmy+zLjnZ83qggRuRPxAV2D9ODRBjDY3bdBMVSeaP/0yKldZyd14UXU3Ahwymi9lHC+MRgzRx5VyovptgOq3RfZ97peRT0NRDuotcxG1oFcAOIutH7oQZiAWZV7LLSSc3JdNCbwjRDm0MqzoD4TcMa8vCJMEZWSzLLygJYiZC0OklTnOYko5wdYms8aJw1FPjXbc2UNo6bVXXnbdoxEfadxtWKskNKF6tSdl766CMh/jM3gMv2bZkY2mYSnNp1RL1sslE33BZPgzW5fyFnUBskwQZEOidWx+uQ1eiPsnvb5FBC8on59fTVKkHh6Xiffqltq8Yvy33P12qoV+S9GHMT4DOm9bQf/qob2fQ="
 matrix:
   include:
     - sudo: required
@@ -33,12 +33,9 @@ after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 deploy:
-  provider: releases
-  api_key:
-    secure: PQSvEpo4Ec3u52FflZsc4M+RLGpToh3w6ej+XwEYKaSsfdXSAA936gXx7BWYy0rZrPT3RFfUjb63wGTfM3sf54cbvVMViPd/7L3DnYPaSsO1lCKdHPkcXV9tXHcWjDw7o0E9dviWXcpptR4Z7z73pE4yYY06e+SzBpROpiWSl9fB62I+DkIvBtfKjcLkvsSf86gtuysTw+v5aeqWtusHuRETI2/mtYwKu3ERICWzWzn9kWL4EWf+2y9uXFa8oz7faUsdK1uxc9xDMJLXtIErg71+Lg0s2KqduOmmGSB03APxMe0/4sh8+Do9yEdh677VGV4KbY5qzeKffjXEFp7Wj7ZG+w1WsmnxTHKiuFdJRbswuSHZhnf3EHiBbC0vwHAPuHp7720bdtTH0GmhniSLu6FnZohbnSaDlTXJaXgqxuDMyrVE5lSjMy1v/hUW6tj6ewQmpcheXMgpArX3fNiUNzHgFp21wTznHAlo+E4q7JC9a5QaV/uONbiLgETqlirRz0jTMfKxp6xQUjEJU6jE1anLVO9JuZkb9PqN99TFjrlzv6TPhSQnzVausQD/VouHYJUXer4yuK7OHZO4JoVm8iSfleQ4XaNnxzU4U6CRzJnaGJfSSa4u9kdoAI7bVvxF0hEQ9vDEV4F8Ze6aIAX5/v8G919x+hvkGjURACuR7oE=
-  file: wheelhouse/bencoder*.whl
-  file_glob: true
+  provider: script
   skip_cleanup: true
+  script: scripts/deploy.sh
   on:
     tags: true
     repo: whtsky/bencoder.pyx
