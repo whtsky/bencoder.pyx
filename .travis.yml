@@ -34,7 +34,7 @@ after_success:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ci/deploy.sh
+  script: /bin/bash ci/deploy.sh
   on:
     tags: true
     repo: whtsky/bencoder.pyx
