@@ -11,8 +11,10 @@ if version < ('2', '7'):
     install_requires.append('ordereddict>=1.1')
 
 base_path = os.path.dirname(os.path.abspath(__file__))
+pyx_path = os.path.join(base_path, 'bencoder.pyx')
+c_path = os.path.join(base_path, 'bencoder.c')
 
-if sys.argv[-1] == 'test':
+if sys.argv[-1] == 'test' and platform.python_implementation() == 'CPython':
     from Cython.Compiler.Options import directive_defaults
 
     directive_defaults['linetrace'] = True
@@ -21,14 +23,45 @@ if sys.argv[-1] == 'test':
     from Cython.Build import cythonize
     ext_modules = cythonize(Extension(
         "bencoder",
-        ["bencoder.pyx"],
+        [pyx_path],
         define_macros=[('CYTHON_TRACE', '1')] 
     ))
-else:
+elif os.path.exists(c_path):
     ext_modules = [Extension(
         'bencoder',
-        [os.path.join(base_path, 'bencoder.c')]
+        [c_path]
     )]
+else:
+    from Cython.Build import cythonize
+    ext_modules = cythonize(Extension(
+        "bencoder",
+        [pyx_path]
+    ))
+
+
+# patch bdist_wheel
+cmdclass = {}
+try:
+    from wheel.bdist_wheel import bdist_wheel
+
+    REPLACE = (
+        'macosx_10_6_intel.'
+        'macosx_10_9_intel.'
+        'macosx_10_9_x86_64.'
+        'macosx_10_10_intel.'
+        'macosx_10_10_x86_64'
+    )
+
+    class _bdist_wheel(bdist_wheel):
+        def get_tag(self):
+            tag = bdist_wheel.get_tag(self)
+            if tag[2] == 'macosx_10_6_intel':
+                tag = (tag[0], tag[1], REPLACE)
+            return tag
+
+    cmdclass['bdist_wheel'] = _bdist_wheel
+except ImportError:
+    pass
 
 
 setup(
@@ -44,6 +77,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     keywords=['bencoding', 'encode', 'decode', 'bittorrent', 'bencode', 'bencoder', 'cython'],
+    cmdclass=cmdclass,
     classifiers=[
         'Environment :: Other Environment',
         'Intended Audience :: Developers',

@@ -7,6 +7,8 @@ cd /io
 for PYBIN in /opt/python/*/bin/; do
     ${PYBIN}/pip install -r /io/dev-requirements.txt
     ${PYBIN}/python setup.py test
+    pwd
+    ls
     rm *.so
 done
 
