@@ -18,13 +18,14 @@ build: off
 test_script:
   - tox
 
-on_success:
+after_test:
   - pip install codecov
   - codecov
   - del bencoder.c
   - tox -c tox-wheels.ini
 
 deploy_script:
+  - ps: "ls wheelhouse/*"
   - echo [distutils]                                  > %USERPROFILE%\\.pypirc
   - echo index-servers =                             >> %USERPROFILE%\\.pypirc
   - echo     pypi                                    >> %USERPROFILE%\\.pypirc
@@ -33,8 +34,7 @@ deploy_script:
   - echo password=%password%                         >> %USERPROFILE%\\.pypirc
   - set HOME=%USERPROFILE%
   - pip install twine
-  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { "twine upload wheelhouse/bencoder*.whl" }
-
+  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { "twine upload wheelhouse/*.whl" }
 
 artifacts:
-  - path: wheelhouse/bencoder*.whl
+  - path: wheelhouse/*.whl
