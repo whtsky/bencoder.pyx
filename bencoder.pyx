@@ -103,9 +103,8 @@ def encode(v, r):
             if isinstance(v, tp):
                 return func(v, r)
     raise BTFailure(
-        "Can't encode {}(Type: {})".format(v, type(v))
+        "Can't encode {0}(Type: {1})".format(v, type(v))
     )
-
 
 
 def encode_int(x, list r):
