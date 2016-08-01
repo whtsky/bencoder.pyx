@@ -125,8 +125,5 @@ setup(
     ],
     ext_modules=ext_modules,
     install_requires=install_requires,
-    setup_requires=[
-        'pytest-runner',
-    ],
     tests_require=['cython', 'pytest', 'coverage'],
 )
