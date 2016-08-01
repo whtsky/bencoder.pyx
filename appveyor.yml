@@ -28,6 +28,7 @@ after_test:
 deploy_script:
   - ps: >-
       if($env:appveyor_repo_tag -eq 'True') {
+          $env:Path += ";C:\Python35;C:\Python35\scripts"
           twine upload --username whtsky --password $env:PYPI_PASSWD wheelhouse/bencoder*.whl
       }
 
