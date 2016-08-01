@@ -102,7 +102,9 @@ def encode(v, r):
         for tp, func in encode_func.items():
             if isinstance(v, tp):
                 return func(v, r)
-    raise BTFailure("Unknown Type: %s" % tp)
+    raise BTFailure(
+        "Can't encode {}(Type: {})".format(v, type(v))
+    )
 
 
 
