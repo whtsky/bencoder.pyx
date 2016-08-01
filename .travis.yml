@@ -12,11 +12,13 @@ matrix:
   include:
     - sudo: required
       os: linux
+      language: python
       services:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     - sudo: required
       os: linux
+      language: python
       services:
         - docker
       env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
