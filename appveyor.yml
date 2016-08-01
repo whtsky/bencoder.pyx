@@ -9,8 +9,7 @@ init:
 
 install:
   - choco install python.pypy > pypy-inst.log 2>&1 || (type pypy-inst.log & exit /b 1)
-  - SET PATH=C:\tools\pypy\pypy;C:\Python35;C:\Python35\scripts;%PATH%
-  - pip install tox
+  - SET PATH=C:\Python35;C:\Python35\scripts;C:\tools\pypy\pypy;%PATH%
   - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
   - pip install -r dev-requirements.txt
 

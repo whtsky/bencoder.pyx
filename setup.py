@@ -15,7 +15,10 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 pyx_path = os.path.join(base_path, 'bencoder.pyx')
 c_path = os.path.join(base_path, 'bencoder.c')
 
-if sys.argv[-1] == 'test' and platform.python_implementation() == 'CPython':
+if 'test' in sys.argv and platform.python_implementation() == 'CPython':
+    if os.path.exists(c_path):
+        # Remove C file to force Cython recompile.
+        os.remove(c_path)
     from Cython.Compiler.Options import directive_defaults
 
     directive_defaults['linetrace'] = True
