@@ -9,6 +9,10 @@ A fast bencode implementation in Cython supports both Python2 & Python3 .
     :target: https://ci.appveyor.com/project/whtsky/bencoder.pyx
 .. image:: https://semaphoreci.com/api/v1/whtsky/bencoder-pyx/branches/master/shields_badge.svg
     :target: https://semaphoreci.com/whtsky/bencoder-pyx
+
+
+.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=wheels
+    :target: https://travis-ci.org/whtsky/bencoder.pyx
 .. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/whtsky/bencoder.pyx
 

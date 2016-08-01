@@ -20,9 +20,9 @@ test_script:
   - tox
 
 on_success:
-  - tox -c tox-wheels.ini
   - pip install codecov
   - codecov
+  - tox -c tox-wheels.ini
 
 deploy_script:
   - echo [distutils]                                  > %USERPROFILE%\\.pypirc

@@ -6,17 +6,27 @@ env:
   - VERSION=3.4
   - VERSION=3.5
 
+matrix:
+  include:
+    - sudo: required
+      os: linux
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+    - sudo: required
+      os: linux
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+           PRE_CMD=linux32
+
 install:
-  - git clone https://github.com/MacPython/terryfy.git
-  - source terryfy/library_installers.sh
-  - clean_builds
-  - get_python_environment macpython $VERSION venv
-  - pip install --upgrade pip wheel
-  - pip install -r dev-requirements.txt
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_install.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then source ci/travis_linux_install.sh; fi
 
 script:
-  - python setup.py test
-  - pip wheel . -w wheelhouse/
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_script.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then source ci/travis_linux_script.sh; fi
 
 after_success:
   - ls wheelhouse/
