@@ -30,11 +30,4 @@ script:
 
 after_success:
   - ls wheelhouse/
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: /bin/bash ci/deploy.sh
-  on:
-    tags: true
-    repo: whtsky/bencoder.pyx
+  - if [ $TRAVIS_TAG ]; then source ci/deploy.sh; fi
