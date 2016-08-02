@@ -14,14 +14,16 @@
 
 __version__ = '1.1.2'
 
-import sys
-IS_PY2 = sys.version[0] == '2'
+from cpython cimport array
+import array
 
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
 
+from cpython.version cimport PY_MAJOR_VERSION
+IS_PY2 = PY_MAJOR_VERSION == 2
 if IS_PY2:
     END_CHAR = 'e'
 else:
@@ -34,7 +36,7 @@ class BTFailure(Exception):
 
 def decode_int(bytes x, int f):
     f += 1
-    new_f = x.index(b'e', f)
+    cdef long new_f = x.index(b'e', f)
     n = int(x[f:new_f])
     if x[f] == b'-'[0]:
         if x[f + 1] == b'0'[0]:
@@ -45,8 +47,8 @@ def decode_int(bytes x, int f):
 
 
 def decode_string(bytes x, int f):
-    colon = x.index(b':', f)
-    n = int(x[f:colon])
+    cdef long colon = x.index(b':', f)
+    cdef long n = int(x[f:colon])
     if x[f] == b'0'[0] and colon != f + 1:
         raise ValueError()
     colon += 1
@@ -62,7 +64,8 @@ def decode_list(bytes x, int f):
 
 
 def decode_dict(bytes x, int f):
-    r, f = OrderedDict(), f + 1
+    r = OrderedDict()
+    f += 1
     while x[f] != END_CHAR:
         k, f = decode_string(x, f)
         r[k], f = decode_func[x[f]](x, f)
@@ -107,39 +110,47 @@ def encode(v, r):
     )
 
 
-cdef encode_int(long x, list r):
-    r.extend((b'i', str(x).encode(), b'e'))
+def encode_int(long x, r):
+    r.frombytes(b'i')
+    r.frombytes(str(x).encode())
+    r.frombytes(b'e')
 
 
-def encode_long(x, list r):
-    r.extend((b'i', str(x).encode(), b'e'))
+def encode_long(x, r):
+    r.frombytes(b'i')
+    r.frombytes(str(x).encode())
+    r.frombytes(b'e')
 
 
-cdef encode_bytes(bytes x, list r):
-    r.extend((str(len(x)).encode(), b':', x))
+def encode_bytes(bytes x, r):
+    r.frombytes(str(len(x)).encode())
+    r.frombytes(b':')
+    r.frombytes(x)
 
 
-def encode_string(str x, list r):
-    r.extend((str(len(x)).encode(), b':', x.encode()))
+def encode_string(str x, r):
+    r.frombytes(str(len(x)).encode())
+    r.frombytes(b':')
+    r.frombytes(x.encode())
 
 
-def encode_list(x, list r):
-    r.append(b'l')
+def encode_list(x, r):
+    r.frombytes(b'l')
     for i in x:
         encode(i, r)
-    r.append(b'e')
+    r.frombytes(b'e')
 
 
-def encode_dict(x, list r):
-    r.append(b'd')
+def encode_dict(x, r):
+    r.frombytes(b'd')
     item_list = list(x.items())
     item_list.sort()
     for k, v in item_list:
         if isinstance(k, str):
             k = k.encode()
-        r.extend((str(len(k)).encode(), b':', k))
+        encode_bytes(k, r)
         encode(v, r)
-    r.append(b'e')
+    r.frombytes(b'e')
 
 
 encode_func = {
@@ -156,6 +167,6 @@ encode_func = {
 
 
 def bencode(x):
-    r = []
+    cdef array.array r = array.array('b')
     encode(x, r)
-    return b''.join(r)
+    return r.tobytes()
