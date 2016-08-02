@@ -26,8 +26,10 @@ from cpython.version cimport PY_MAJOR_VERSION
 IS_PY2 = PY_MAJOR_VERSION == 2
 if IS_PY2:
     END_CHAR = 'e'
+    ARRAY_TYPECODE = b'b'
 else:
     END_CHAR = ord('e')
+    ARRAY_TYPECODE = 'b'
 
 
 class BTFailure(Exception):
@@ -111,38 +113,38 @@ def encode(v, r):
 
 
 def encode_int(long x, r):
-    r.frombytes(b'i')
-    r.frombytes(str(x).encode())
-    r.frombytes(b'e')
+    r.fromstring(b'i')
+    r.fromstring(str(x).encode())
+    r.fromstring(b'e')
 
 
 def encode_long(x, r):
-    r.frombytes(b'i')
-    r.frombytes(str(x).encode())
-    r.frombytes(b'e')
+    r.fromstring(b'i')
+    r.fromstring(str(x).encode())
+    r.fromstring(b'e')
 
 
 def encode_bytes(bytes x, r):
-    r.frombytes(str(len(x)).encode())
-    r.frombytes(b':')
-    r.frombytes(x)
+    r.fromstring(str(len(x)).encode())
+    r.fromstring(b':')
+    r.fromstring(x)
 
 
 def encode_string(str x, r):
-    r.frombytes(str(len(x)).encode())
-    r.frombytes(b':')
-    r.frombytes(x.encode())
+    r.fromstring(str(len(x)).encode())
+    r.fromstring(b':')
+    r.fromstring(x.encode())
 
 
 def encode_list(x, r):
-    r.frombytes(b'l')
+    r.fromstring(b'l')
     for i in x:
         encode(i, r)
-    r.frombytes(b'e')
+    r.fromstring(b'e')
 
 
 def encode_dict(x, r):
-    r.frombytes(b'd')
+    r.fromstring(b'd')
     item_list = list(x.items())
     item_list.sort()
     for k, v in item_list:
@@ -150,7 +152,7 @@ def encode_dict(x, r):
             k = k.encode()
         encode_bytes(k, r)
         encode(v, r)
-    r.frombytes(b'e')
+    r.fromstring(b'e')
 
 
 encode_func = {
@@ -167,6 +169,6 @@ encode_func = {
 
 
 def bencode(x):
-    cdef array.array r = array.array(b'b')
+    cdef array.array r = array.array(ARRAY_TYPECODE)
     encode(x, r)
-    return r.tobytes()
+    return r.tostring()

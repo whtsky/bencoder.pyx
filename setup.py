@@ -15,32 +15,39 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 pyx_path = os.path.join(base_path, 'bencoder.pyx')
 c_path = os.path.join(base_path, 'bencoder.c')
 
-if 'test' in sys.argv and platform.python_implementation() == 'CPython':
+try:
+    import Cython
+    HAVE_CYTHON = True
+except ImportError:
+    HAVE_CYTHON = False
+
+if HAVE_CYTHON:
     if os.path.exists(c_path):
         # Remove C file to force Cython recompile.
         os.remove(c_path)
-    from Cython.Compiler.Options import directive_defaults
+    if 'test' in sys.argv and platform.python_implementation() == 'CPython':
+        from Cython.Compiler.Options import directive_defaults
 
-    directive_defaults['linetrace'] = True
-    directive_defaults['binding'] = True
+        directive_defaults['linetrace'] = True
+        directive_defaults['binding'] = True
 
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path],
-        define_macros=[('CYTHON_TRACE', '1')] 
-    ))
-elif os.path.exists(c_path):
+        from Cython.Build import cythonize
+        ext_modules = cythonize(Extension(
+            "bencoder",
+            [pyx_path],
+            define_macros=[('CYTHON_TRACE', '1')] 
+        ))
+    else:
+        from Cython.Build import cythonize
+        ext_modules = cythonize(Extension(
+            "bencoder",
+            [pyx_path]
+        ))
+else:
     ext_modules = [Extension(
         'bencoder',
         [c_path]
     )]
-else:
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path]
-    ))
 
 
 class PyTest(TestCommand):
