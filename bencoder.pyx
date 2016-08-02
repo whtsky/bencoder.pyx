@@ -14,7 +14,6 @@
 
 __version__ = '1.1.2'
 
-from cpython cimport array
 import array
 
 try:
@@ -169,6 +168,6 @@ encode_func = {
 
 
 def bencode(x):
-    cdef array.array r = array.array(ARRAY_TYPECODE)
+    r = array.array(ARRAY_TYPECODE)
     encode(x, r)
     return r.tostring()
