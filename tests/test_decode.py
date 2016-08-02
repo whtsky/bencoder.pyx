@@ -44,18 +44,18 @@ def test_ordered_dict(benchmark):
     assert list(bdecode(b'd2:ke2:va2:kci2ee').keys()) == [b'ke', b'kc']
 
 
-def test_encode_complex(benchmark):
+def test_encode_complex():
     od = dict()
     od[b'KeyA'] = [b'listitemA', {b'k': b'v'}, 3]
     od[b'KeyB'] = {b'k': b'v'}
     od[b'KeyC'] = 3
     od[b'KeyD'] = b'AString'
     expected_result = b'd4:KeyAl9:listitemAd1:k1:vei3ee4:KeyBd1:k1:ve4:KeyCi3e4:KeyD7:AStringe'
-    assert benchmark(bdecode, expected_result) == od
+    assert bdecode(expected_result) == od
 
 
-def test_decode_debian_torrent(benchmark):
+def test_decode_debian_torrent():
     with open(TORRENT_PATH, "rb") as f:
-        torrent = benchmark(bdecode, f.read())
+        torrent = bdecode(f.read())
     assert torrent[b'announce'] == b'http://bttracker.debian.org:6969/announce'
     assert torrent[b'comment'] == b'"Debian CD from cdimage.debian.org"'
