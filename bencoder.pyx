@@ -167,6 +167,6 @@ encode_func = {
 
 
 def bencode(x):
-    cdef array.array r = array.array('b')
+    cdef array.array r = array.array(b'b')
     encode(x, r)
     return r.tobytes()
