@@ -21,7 +21,10 @@ def test_encode_int(benchmark):
 def test_encode_large_int(benchmark):
     assert bencode(1455189890) == b'i1455189890e'
     assert bencode(25735241490) == b'i25735241490e'
-    assert benchmark(bencode, sys.maxsize) == ('i%de' % sys.maxsize).encode()
+    MAX_SIZE = sys.maxsize + 1
+    BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
+
+    assert benchmark(bencode, MAX_SIZE) == BENCODED_MAXSIZE
 
 
 def test_encode_bytes(benchmark):
@@ -29,6 +32,13 @@ def test_encode_bytes(benchmark):
     coded = benchmark(bencode, b)
     l = str(len(b)).encode()
     assert coded == l + b':' + b
+
+
+def test_encode_string(benchmark):
+    b = "TheseAreSomeString"
+    coded = benchmark(bencode, b)
+    l = str(len(b))
+    assert coded == (l + ':' + b).encode()
 
 
 def test_encode_list(benchmark):

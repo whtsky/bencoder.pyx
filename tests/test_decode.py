@@ -21,7 +21,10 @@ def test_decode_int(benchmark):
 def test_decode_large_int(benchmark):
     assert bdecode(b'i1455189890e') == 1455189890
     assert bdecode(b'i25735241490e') == 25735241490
-    assert benchmark(bdecode, ('i%de' % sys.maxsize).encode()) == sys.maxsize
+
+    MAX_SIZE = sys.maxsize + 1
+    BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
+    assert benchmark(bdecode, BENCODED_MAXSIZE) == MAX_SIZE
 
 
 def test_decode_list(benchmark):

@@ -107,25 +107,20 @@ def encode(v, r):
     )
 
 
-def encode_int(x, list r):
+cdef encode_int(long x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
 
-def encode_long(long x, list r):
+def encode_long(x, list r):
     r.extend((b'i', str(x).encode(), b'e'))
 
 
-def encode_bool(x, list r):
-    if x:
-        encode_int(1, r)
-    else:
-        encode_int(0, r)
-
-
-def encode_string(x, list r):
-    if isinstance(x, str):
-        x = x.encode()
+cdef encode_bytes(bytes x, list r):
     r.extend((str(len(x)).encode(), b':', x))
+
+
+def encode_string(str x, list r):
+    r.extend((str(len(x)).encode(), b':', x.encode()))
 
 
 def encode_list(x, list r):
@@ -149,14 +144,14 @@ def encode_dict(x, list r):
 
 encode_func = {
     int: encode_int,
+    bool: encode_int,    
     long: encode_long,
-    bytes: encode_string,
+    bytes: encode_bytes,
     str: encode_string,
     list: encode_list,
     tuple: encode_list,
     dict: encode_dict,
     OrderedDict: encode_dict,
-    bool: encode_bool,
 }
 
 
