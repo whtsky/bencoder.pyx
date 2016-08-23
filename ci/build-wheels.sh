@@ -19,6 +19,6 @@ cp /tmp/wheelhouse/ordereddict* /io/wheelhouse
 # Install packages and test again
 for PYBIN in /opt/python/*/bin/; do
     ${PYBIN}/pip install bencoder.pyx --no-index -f /io/wheelhouse
-    ${PYBIN}/pip install pytest
+    ${PYBIN}/pip install pytest pytest-benchmark
     (cd /io; ${PYBIN}/py.test)
 done

@@ -3,17 +3,16 @@ Bencoder.pyx
 
 A fast bencode implementation in Cython supports both Python2 & Python3 .
 
-.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=macOS
+.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/develop.svg?maxAge=3600&label=macOS
     :target: https://travis-ci.org/whtsky/bencoder.pyx
-.. image:: https://img.shields.io/appveyor/ci/whtsky/bencoder-pyx/master.svg?maxAge=3600&label=Windows
+.. image:: https://img.shields.io/appveyor/ci/whtsky/bencoder-pyx/develop.svg?maxAge=3600&label=Windows
     :target: https://ci.appveyor.com/project/whtsky/bencoder-pyx
-.. image:: https://semaphoreci.com/api/v1/whtsky/bencoder-pyx/branches/master/shields_badge.svg
+.. image:: https://semaphoreci.com/api/v1/whtsky/bencoder-pyx/branches/develop/shields_badge.svg
     :target: https://semaphoreci.com/whtsky/bencoder-pyx
 
-
-.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=wheels
+.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/develop.svg?maxAge=3600&label=wheels
     :target: https://travis-ci.org/whtsky/bencoder.pyx
-.. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/develop/graph/badge.svg
     :target: https://codecov.io/gh/whtsky/bencoder.pyx
 
 Install
@@ -42,6 +41,12 @@ Usage
 
 ChangeLog
 ----------
+
+Version 1.1.3
+~~~~~~~~~~~~~~~
+
++ Performance Improvement
++ Fix package metainfo ` #3 <https://github.com/whtsky/bencoder.pyx/issues/3>`_
 
 Version 1.1.2
 ~~~~~~~~~~~~~~~

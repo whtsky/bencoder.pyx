@@ -1,4 +1,5 @@
 pytest
+pytest-benchmark
 coverage
 cython
 tox

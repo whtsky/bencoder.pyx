@@ -11,36 +11,42 @@ install_requires = []
 if version < ('2', '7'):
     install_requires.append('ordereddict>=1.1')
 
-base_path = os.path.dirname(os.path.abspath(__file__))
-pyx_path = os.path.join(base_path, 'bencoder.pyx')
-c_path = os.path.join(base_path, 'bencoder.c')
+pyx_path = 'bencoder.pyx'
+c_path = 'bencoder.c'
 
-if 'test' in sys.argv and platform.python_implementation() == 'CPython':
+try:
+    import Cython
+    HAVE_CYTHON = True
+except ImportError:
+    HAVE_CYTHON = False
+
+if HAVE_CYTHON:
     if os.path.exists(c_path):
         # Remove C file to force Cython recompile.
         os.remove(c_path)
-    from Cython.Compiler.Options import directive_defaults
+    if 'test' in sys.argv and platform.python_implementation() == 'CPython':
+        from Cython.Compiler.Options import directive_defaults
 
-    directive_defaults['linetrace'] = True
-    directive_defaults['binding'] = True
+        directive_defaults['linetrace'] = True
+        directive_defaults['binding'] = True
 
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path],
-        define_macros=[('CYTHON_TRACE', '1')] 
-    ))
-elif os.path.exists(c_path):
+        from Cython.Build import cythonize
+        ext_modules = cythonize(Extension(
+            "bencoder",
+            [pyx_path],
+            define_macros=[('CYTHON_TRACE', '1')] 
+        ))
+    else:
+        from Cython.Build import cythonize
+        ext_modules = cythonize(Extension(
+            "bencoder",
+            [pyx_path]
+        ))
+else:
     ext_modules = [Extension(
         'bencoder',
         [c_path]
     )]
-else:
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path]
-    ))
 
 
 class PyTest(TestCommand):
@@ -93,7 +99,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.1.2',
+    version='1.1.3',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
@@ -121,12 +127,12 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Utilities',
     ],
     ext_modules=ext_modules,
     install_requires=install_requires,
-    setup_requires=[
-        'pytest-runner',
-    ],
     tests_require=['cython', 'pytest', 'coverage'],
 )

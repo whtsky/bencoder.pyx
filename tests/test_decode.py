@@ -10,34 +10,37 @@ TORRENT_PATH = os.path.join(
 )
 
 
-def test_decode_str():
-    assert bdecode(b'6:WWWWWW') == b"WWWWWW"
+def test_decode_str(benchmark):
+    assert benchmark(bdecode, b'6:WWWWWW') == b"WWWWWW"
 
 
-def test_decode_int():
-    assert bdecode(b'i233e') == 233
+def test_decode_int(benchmark):
+    assert benchmark(bdecode, b'i233e') == 233
 
 
-def test_decode_large_int():
+def test_decode_large_int(benchmark):
     assert bdecode(b'i1455189890e') == 1455189890
     assert bdecode(b'i25735241490e') == 25735241490
-    assert bdecode(('i%de' % sys.maxsize).encode()) == sys.maxsize
+
+    MAX_SIZE = sys.maxsize + 1
+    BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
+    assert benchmark(bdecode, BENCODED_MAXSIZE) == MAX_SIZE
 
 
-def test_decode_list():
-    assert bdecode(b'l1:a1:bi3ee') == [b'a', b'b', 3]
+def test_decode_list(benchmark):
+    assert benchmark(bdecode, b'l1:a1:bi3ee') == [b'a', b'b', 3]
 
 
-def test_decode_dict():
+def test_decode_dict(benchmark):
     od = dict()
     od[b'ka'] = b'va'
     od[b'kb'] = 2
-    assert bdecode(b'd2:ka2:va2:kbi2ee') == od
+    assert benchmark(bdecode, b'd2:ka2:va2:kbi2ee') == od
 
 
-def test_ordered_dict():
+def test_ordered_dict(benchmark):
     from bencoder import OrderedDict
-    rv = bdecode(b'd2:ka2:va2:kbi2ee')
+    rv = benchmark(bdecode, b'd2:ka2:va2:kbi2ee')
     assert isinstance(rv, OrderedDict)
     assert list(rv.keys()) == [b'ka', b'kb']
     assert list(bdecode(b'd2:kc2:va2:kei2ee').keys()) == [b'kc', b'ke']
