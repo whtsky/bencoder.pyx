@@ -12,7 +12,7 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '1.1.2'
+__version__ = '1.1.3'
 
 import array
 
