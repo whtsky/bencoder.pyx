@@ -11,9 +11,8 @@ install_requires = []
 if version < ('2', '7'):
     install_requires.append('ordereddict>=1.1')
 
-base_path = os.path.dirname(os.path.abspath(__file__))
-pyx_path = os.path.join(base_path, 'bencoder.pyx')
-c_path = os.path.join(base_path, 'bencoder.c')
+pyx_path = 'bencoder.pyx'
+c_path = 'bencoder.c'
 
 try:
     import Cython
@@ -100,7 +99,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.1.2',
+    version='1.1.3',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
