@@ -46,7 +46,7 @@ Version 1.1.3
 ~~~~~~~~~~~~~~~
 
 + Performance Improvement
-+ Fix package metainfo ` #3 <https://github.com/whtsky/bencoder.pyx/issues/3>`_
++ Fix package metainfo `#3 <https://github.com/whtsky/bencoder.pyx/issues/3>`_
 
 Version 1.1.2
 ~~~~~~~~~~~~~~~
