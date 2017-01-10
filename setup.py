@@ -25,17 +25,15 @@ if HAVE_CYTHON:
         # Remove C file to force Cython recompile.
         os.remove(c_path)
     if 'test' in sys.argv and platform.python_implementation() == 'CPython':
-        from Cython.Compiler.Options import directive_defaults
-
-        directive_defaults['linetrace'] = True
-        directive_defaults['binding'] = True
-
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
             "bencoder",
             [pyx_path],
             define_macros=[('CYTHON_TRACE', '1')] 
-        ))
+        ), compiler_directives={
+            'linetrace': True,
+            'binding': True
+        })
     else:
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
