@@ -8,6 +8,7 @@ env:
     - VERSION=3.3
     - VERSION=3.4
     - VERSION=3.5
+    - VERSION=3.6
 matrix:
   include:
     - sudo: required
