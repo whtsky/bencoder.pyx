@@ -88,15 +88,18 @@ for func, keys in [
             decode_func[ord(key)] = func
 
 
-def bdecode(bytes x):
+def bdecode2(bytes x):
     try:
         r, l = decode_func[x[0]](x, 0)
     except (IndexError, KeyError, ValueError):
         raise BTFailure("not a valid bencoded string")
+    return r, l
+
+def bdecode(bytes x):
+    r, l = bdecode2(x)
     if l != len(x):
         raise BTFailure("invalid bencoded value (data after valid prefix)")
     return r
-
 
 def encode(v, r):
     tp = type(v)
