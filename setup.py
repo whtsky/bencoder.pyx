@@ -25,17 +25,15 @@ if HAVE_CYTHON:
         # Remove C file to force Cython recompile.
         os.remove(c_path)
     if 'test' in sys.argv and platform.python_implementation() == 'CPython':
-        from Cython.Compiler.Options import directive_defaults
-
-        directive_defaults['linetrace'] = True
-        directive_defaults['binding'] = True
-
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
             "bencoder",
             [pyx_path],
             define_macros=[('CYTHON_TRACE', '1')] 
-        ))
+        ), compiler_directives={
+            'linetrace': True,
+            'binding': True
+        })
     else:
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
@@ -99,7 +97,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.1.3',
+    version='1.2.0',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
@@ -125,6 +123,7 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Intended Audience :: Developers',

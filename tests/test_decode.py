@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from bencoder import bdecode
+from bencoder import bdecode, bdecode2
 import os
 import sys
 
@@ -8,6 +8,12 @@ TORRENT_PATH = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
     "debian-8.3.0-amd64-netinst.iso.torrent"
 )
+
+
+def test_decode2():
+    decoded, length = bdecode2(b'6:WWWWWWi233e')
+    assert decoded == b'WWWWWW'
+    assert length == 8
 
 
 def test_decode_str(benchmark):

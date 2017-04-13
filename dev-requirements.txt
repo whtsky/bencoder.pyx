@@ -1,5 +1,5 @@
-pytest
-pytest-benchmark
-coverage
-cython
-tox
+pytest==3.0.5
+pytest-benchmark==3.0.0
+coverage==4.3.1
+cython==0.25.2
+tox==2.5.0
