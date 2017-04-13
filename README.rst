@@ -30,7 +30,7 @@ Usage
 
 .. code-block:: python
 
-    from bencoder import bencode, bdecode
+    from bencoder import bencode, bdecode, bdecode2
     
     assert bencode("WWWWWW") == b'6:WWWWWW'
     assert bencode(233) == b'i233e'
@@ -38,9 +38,18 @@ Usage
     with open("debian-8.3.0-amd64-netinst.iso.torrent", "rb") as f:
         torrent = bdecode(f.read())
         print(torrent['announce'])
+    
+    decoded, length = bdecode2(b'6:WWWWWWi233e')
+    assert decoded == b'WWWWWW'
+    assert length == 8
 
 ChangeLog
 ----------
+
+Version 1.2.0
+~~~~~~~~~~~~~~~
+
++ Add `bdecode2` method. `#6 <https://github.com/whtsky/bencoder.pyx/pull/6>`_
 
 Version 1.1.3
 ~~~~~~~~~~~~~~~
