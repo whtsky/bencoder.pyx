@@ -29,7 +29,7 @@ def test_decode_large_int(benchmark):
     assert bdecode(b'i25735241490e') == 25735241490
 
     MAX_SIZE = sys.maxsize + 1
-    BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
+    BENCODED_MAXSIZE = ('i{0:d}e'.format(MAX_SIZE)).encode()
     assert benchmark(bdecode, BENCODED_MAXSIZE) == MAX_SIZE
 
 

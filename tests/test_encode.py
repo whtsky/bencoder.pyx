@@ -22,7 +22,7 @@ def test_encode_large_int(benchmark):
     assert bencode(1455189890) == b'i1455189890e'
     assert bencode(25735241490) == b'i25735241490e'
     MAX_SIZE = sys.maxsize + 1
-    BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
+    BENCODED_MAXSIZE = ('i{0:d}e'.format(MAX_SIZE)).encode()
 
     assert benchmark(bencode, MAX_SIZE) == BENCODED_MAXSIZE
 
