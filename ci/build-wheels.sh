@@ -14,7 +14,7 @@ for whl in /tmp/wheelhouse/bencoder*.whl; do
     auditwheel repair $whl -w /io/wheelhouse/
 done
 
-cp /tmp/wheelhouse/ordereddict* /io/wheelhouse
+cp /tmp/wheelhouse/ordereddict* /io/wheelhouse || true
 
 # Install packages and test again
 for PYBIN in /opt/python/*/bin/; do
