@@ -46,6 +46,12 @@ Usage
 ChangeLog
 ----------
 
+Version 1.2.1
+~~~~~~~~~~~~~~~
+
++ Drop support for Python 2.6
++ Performance boost for `bencode` method. `#7 <https://github.com/whtsky/bencoder.pyx/issues/7>`_
+
 Version 1.2.0
 ~~~~~~~~~~~~~~~
 

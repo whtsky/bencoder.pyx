@@ -97,7 +97,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.2.0',
+    version='1.2.1',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
