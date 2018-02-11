@@ -38,12 +38,14 @@ if HAVE_CYTHON:
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
             "bencoder",
-            [pyx_path]
+            [pyx_path],
+            extra_compile_args=['-O3']
         ))
 else:
     ext_modules = [Extension(
         'bencoder',
-        [c_path]
+        [c_path],
+        extra_compile_args=['-O3']
     )]
 
 
