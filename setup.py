@@ -8,8 +8,6 @@ from setuptools.command.test import test as TestCommand
 
 version = platform.python_version_tuple()
 install_requires = []
-if version < ('2', '7'):
-    install_requires.append('ordereddict>=1.1')
 
 pyx_path = 'bencoder.pyx'
 c_path = 'bencoder.c'
@@ -38,12 +36,14 @@ if HAVE_CYTHON:
         from Cython.Build import cythonize
         ext_modules = cythonize(Extension(
             "bencoder",
-            [pyx_path]
+            [pyx_path],
+            extra_compile_args=['-O3']
         ))
 else:
     ext_modules = [Extension(
         'bencoder',
-        [c_path]
+        [c_path],
+        extra_compile_args=['-O3']
     )]
 
 
@@ -55,7 +55,7 @@ class PyTest(TestCommand):
         self.pytest_args = []
 
     def run_tests(self):
-        #import here, cause outside the eggs aren't loaded
+        # import here, cause outside the eggs aren't loaded
         import coverage
         cov = coverage.Coverage()
         cov.start()
@@ -97,7 +97,7 @@ except ImportError:
 
 setup(
     name='bencoder.pyx',
-    version='1.2.0',
+    version='1.2.1',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
@@ -117,7 +117,6 @@ setup(
         'Programming Language :: Cython',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',

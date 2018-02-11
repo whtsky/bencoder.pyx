@@ -10,68 +10,68 @@ TORRENT_PATH = os.path.join(
 )
 
 
-def test_encode_str(benchmark):
-    assert benchmark(bencode, "WWWWWW") == b'6:WWWWWW'
+def test_encode_str():
+    assert bencode("WWWWWW") == b'6:WWWWWW'
 
 
-def test_encode_int(benchmark):
-    assert benchmark(bencode, 233) == b'i233e'
+def test_encode_int():
+    assert bencode(233) == b'i233e'
 
 
-def test_encode_large_int(benchmark):
+def test_encode_large_int():
     assert bencode(1455189890) == b'i1455189890e'
     assert bencode(25735241490) == b'i25735241490e'
     MAX_SIZE = sys.maxsize + 1
     BENCODED_MAXSIZE = ('i%de' % MAX_SIZE).encode()
 
-    assert benchmark(bencode, MAX_SIZE) == BENCODED_MAXSIZE
+    assert bencode(MAX_SIZE) == BENCODED_MAXSIZE
 
 
-def test_encode_bytes(benchmark):
+def test_encode_bytes():
     b = b"TheseAreSomeBytes"
-    coded = benchmark(bencode, b)
+    coded = bencode(b)
     l = str(len(b)).encode()
     assert coded == l + b':' + b
 
 
-def test_encode_string(benchmark):
+def test_encode_string():
     b = "TheseAreSomeString"
-    coded = benchmark(bencode, b)
+    coded = bencode(b)
     l = str(len(b))
     assert coded == (l + ':' + b).encode()
 
 
-def test_encode_list(benchmark):
-    assert benchmark(bencode, ['a', 'b', 3]) == b'l1:a1:bi3ee'
+def test_encode_list():
+    assert bencode(['a', 'b', 3]) == b'l1:a1:bi3ee'
 
 
-def test_encode_tuple(benchmark):
-    assert benchmark(bencode, ('a', 'b', 3)) == b'l1:a1:bi3ee'
+def test_encode_tuple():
+    assert bencode(('a', 'b', 3)) == b'l1:a1:bi3ee'
 
 
-def test_encode_true(benchmark):
-    assert benchmark(bencode, True) == bencode(1)
+def test_encode_true():
+    assert bencode(True) == bencode(1)
 
 
-def test_encode_false(benchmark):
-    assert benchmark(bencode, False) == bencode(0)
+def test_encode_false():
+    assert bencode(False) == bencode(0)
 
 
-def test_encode_dict(benchmark):
+def test_encode_dict():
     od = dict()
     od['ka'] = 'va'
     od['kb'] = 2
-    assert benchmark(bencode, od) == b'd2:ka2:va2:kbi2ee'
+    assert bencode(od) == b'd2:ka2:va2:kbi2ee'
 
 
-def test_encode_dict_subclass(benchmark):
+def test_encode_dict_subclass():
     class AAA(dict):
         pass
 
     od = AAA()
     od['ka'] = 'va'
     od['kb'] = 2
-    assert benchmark(bencode, od) == b'd2:ka2:va2:kbi2ee'
+    assert bencode(od) == b'd2:ka2:va2:kbi2ee'
 
 
 def test_encode_complex():

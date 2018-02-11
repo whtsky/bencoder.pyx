@@ -12,9 +12,8 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 
-import array
 
 try:
     from collections import OrderedDict
@@ -101,7 +100,7 @@ def bdecode(bytes x):
         raise BTFailure("invalid bencoded value (data after valid prefix)")
     return r
 
-def encode(v, r):
+cdef encode(v, list r):
     tp = type(v)
     if tp in encode_func:
         return encode_func[tp](v, r)
@@ -114,39 +113,39 @@ def encode(v, r):
     )
 
 
-def encode_int(long x, r):
-    r.fromstring(b'i')
-    r.fromstring(str(x).encode())
-    r.fromstring(b'e')
+cdef encode_int(long x, list r):
+    r.append(b'i')
+    r.append(str(x).encode())
+    r.append(b'e')
 
 
-def encode_long(x, r):
-    r.fromstring(b'i')
-    r.fromstring(str(x).encode())
-    r.fromstring(b'e')
+cdef encode_long(x, list r):
+    r.append(b'i')
+    r.append(str(x).encode())
+    r.append(b'e')
 
 
-def encode_bytes(bytes x, r):
-    r.fromstring(str(len(x)).encode())
-    r.fromstring(b':')
-    r.fromstring(x)
+cdef encode_bytes(bytes x, list r):
+    r.append(str(len(x)).encode())
+    r.append(b':')
+    r.append(x)
 
 
-def encode_string(str x, r):
-    r.fromstring(str(len(x)).encode())
-    r.fromstring(b':')
-    r.fromstring(x.encode())
+cdef encode_string(str x, list r):
+    r.append(str(len(x)).encode())
+    r.append(b':')
+    r.append(x.encode())
 
 
-def encode_list(x, r):
-    r.fromstring(b'l')
+cdef encode_list(x, list r):
+    r.append(b'l')
     for i in x:
         encode(i, r)
-    r.fromstring(b'e')
+    r.append(b'e')
 
 
-def encode_dict(x, r):
-    r.fromstring(b'd')
+cdef encode_dict(x, list r):
+    r.append(b'd')
     item_list = list(x.items())
     item_list.sort()
     for k, v in item_list:
@@ -154,7 +153,7 @@ def encode_dict(x, r):
             k = k.encode()
         encode_bytes(k, r)
         encode(v, r)
-    r.fromstring(b'e')
+    r.append(b'e')
 
 
 encode_func = {
@@ -171,6 +170,6 @@ encode_func = {
 
 
 def bencode(x):
-    r = array.array(ARRAY_TYPECODE)
+    r = []
     encode(x, r)
-    return r.tostring()
+    return b''.join(r)
