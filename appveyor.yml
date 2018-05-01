@@ -28,7 +28,7 @@ install:
 build: off
 
 test_script:
-  - pip install --upgrade --user pip setuptools
+  - python -m pip install -U pip setuptools
   - pip install codecov
   - python setup.py test
   - codecov --required
