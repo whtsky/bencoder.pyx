@@ -1,0 +1,81 @@
+ci-steps: &ci-steps
+  working_directory: /work
+  steps:
+  - checkout
+  - run:
+      name: build wheel
+      command: bash /work/ci/build-wheels.sh
+
+version: 2
+jobs:
+  #
+  # x64
+  #
+  manylinux-x64_cp27-cp27m:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *ci-steps
+
+  manylinux-x64_cp27-cp27mu:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *ci-steps
+
+  manylinux-x64_cp34-cp34m:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *ci-steps
+
+  manylinux-x64_cp35-cp35m:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *ci-steps
+
+  manylinux-x64_cp36-cp36m:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *ci-steps
+  #
+  # x86
+  #
+  manylinux-x86_cp27-cp27m:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *ci-steps
+
+  manylinux-x86_cp27-cp27mu:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *ci-steps
+
+  manylinux-x86_cp34-cp34m:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *ci-steps
+
+  manylinux-x86_cp35-cp35m:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *ci-steps
+
+  manylinux-x86_cp36-cp36m:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *ci-steps
+
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - manylinux-x64_cp27-cp27m
+      - manylinux-x64_cp27-cp27mu
+      - manylinux-x64_cp34-cp34m
+      - manylinux-x64_cp35-cp35m
+      - manylinux-x64_cp36-cp36m
+
+      - manylinux-x86_cp27-cp27m
+      - manylinux-x86_cp27-cp27mu
+      - manylinux-x86_cp34-cp34m
+      - manylinux-x86_cp35-cp35m
+      - manylinux-x86_cp36-cp36m

@@ -1,22 +1,24 @@
 #!/bin/bash
 set -e -x
 
-cd /io
+cd /work
 
-# compile wheels
-for PYBIN in /opt/python/*/bin/; do
-    ${PYBIN}/pip install -r /io/build-requirements.txt
-    ${PYBIN}/pip wheel /io/ -w /tmp/wheelhouse/
-done
+MANYLINUX_PYTHON=$(echo ${CIRCLE_JOB} | cut -d"_" -f2)
+ARCHITECTURE=$(echo ${CIRCLE_JOB} | cut -d"_" -f1 | cut -d"-" -f2)
+PYBIN=/opt/python/${MANYLINUX_PYTHON}/bin
+echo "MANYLINUX_PYTHON [${MANYLINUX_PYTHON}] ${ARCHITECTURE}"
+if [ "$ARCHITECTURE" == "x86" ]
+then
+    echo "x86 architect, use linux32"
+    PRE_CMD=linux32
+fi
+${PRE_CMD} ${PYBIN}/pip install -r /work/dev-requirements.txt
+${PRE_CMD} ${PYBIN}/pip wheel /work/ -w /tmp/wheelhouse/
 
-# Bundle external shared libraries into the wheels
 for whl in /tmp/wheelhouse/bencoder*.whl; do
-    auditwheel repair $whl -w /io/wheelhouse/
+    auditwheel repair $whl -w /work/wheelhouse/
 done
 
 # Install packages and test again
-for PYBIN in /opt/python/*/bin/; do
-    ${PYBIN}/pip install bencoder.pyx --no-index -f /io/wheelhouse
-    ${PYBIN}/pip install pytest pytest-benchmark
-    (cd /io; ${PYBIN}/py.test)
-done
+${PRE_CMD} ${PYBIN}/pip install bencoder.pyx --no-index -f /work/wheelhouse
+(cd /work; ${PRE_CMD} ${PYBIN}/py.test)

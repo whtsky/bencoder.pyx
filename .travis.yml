@@ -10,29 +10,12 @@ env:
     - VERSION=3.4
     - VERSION=3.5
     - VERSION=3.6
-matrix:
-  include:
-    - sudo: required
-      os: linux
-      language: python
-      services:
-        - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-    - sudo: required
-      os: linux
-      language: python
-      services:
-        - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
-           PRE_CMD=linux32
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then source ci/travis_linux_install.sh; fi
 
 script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_script.sh; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then source ci/travis_linux_script.sh; fi
 
 after_success:
   - ls wheelhouse/
