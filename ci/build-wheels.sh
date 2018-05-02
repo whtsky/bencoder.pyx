@@ -5,7 +5,7 @@ cd /io
 
 # compile wheels
 for PYBIN in /opt/python/*/bin/; do
-    ${PYBIN}/pip install cython
+    ${PYBIN}/pip install -r /io/build-requirements.txt
     ${PYBIN}/pip wheel /io/ -w /tmp/wheelhouse/
 done
 

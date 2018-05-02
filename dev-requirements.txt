@@ -1,4 +1,4 @@
+-r build-requirements.txt
 pytest==3.2.5
 coverage==4.5.1
-cython==0.28.2
 tox==2.5.0
