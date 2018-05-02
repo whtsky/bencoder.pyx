@@ -15,12 +15,8 @@
 __version__ = '1.2.1'
 
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
 
-from cpython.version cimport PY_MAJOR_VERSION
+from cpython.version cimport PY_MAJOR_VERSION, PY_MINOR_VERSION
 IS_PY2 = PY_MAJOR_VERSION == 2
 if IS_PY2:
     END_CHAR = 'e'
@@ -29,6 +25,10 @@ else:
     END_CHAR = ord('e')
     ARRAY_TYPECODE = 'b'
 
+if PY_MAJOR_VERSION >= 3 and PY_MINOR_VERSION >=7:
+    OrderedDict = dict
+else:
+    from collections import OrderedDict
 
 class BTFailure(Exception):
     pass
