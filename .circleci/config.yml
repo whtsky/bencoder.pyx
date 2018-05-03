@@ -1,4 +1,4 @@
-ci-steps: &ci-steps
+build-wheel: &build-wheel
   working_directory: /work
   steps:
   - checkout
@@ -6,76 +6,167 @@ ci-steps: &ci-steps
       name: build wheel
       command: bash /work/ci/build-wheels.sh
 
+test: &test
+  working_directory: ~/bencoder.pyx
+  steps:
+    - checkout
+    - run:
+        name: install dependencies
+        command: |
+          sudo pip install -r tox-requirements.txt
+    - run:
+        name: test
+        command: |
+          tox -e ${CIRCLE_JOB}
+
+test_pypy: &test_pypy
+  working_directory: ~/bencoder.pyx
+  steps:
+    - checkout
+    - run:
+        name: install dependencies
+        command: |
+          pip install -r tox-requirements.txt
+    - run:
+        name: test
+        command: |
+          tox -e ${CIRCLE_JOB}
+
+
 version: 2
 jobs:
+  #
+  # test
+  #
+  py27:
+    docker:
+      - image: circleci/python:2.7
+    <<: *test
+  py34:
+    docker:
+      - image: circleci/python:3.4
+    <<: *test
+  py35:
+    docker:
+      - image: circleci/python:3.5
+    <<: *test
+  py36:
+    docker:
+      - image: circleci/python:3.6
+    <<: *test
+  py37:
+    docker:
+      - image: circleci/python:3.7-rc
+    <<: *test
+  pypy:
+    docker:
+      - image: pypy:2
+    <<: *test_pypy
+  pypy3:
+    docker:
+      - image: pypy:3
+    <<: *test_pypy
+
+  #
+  # build manylinux wheel
+  #
+
   #
   # x64
   #
   manylinux-x64_cp27-cp27m:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x64_cp27-cp27mu:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x64_cp34-cp34m:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x64_cp35-cp35m:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x64_cp36-cp36m:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
-    <<: *ci-steps
+    <<: *build-wheel
   #
   # x86
   #
   manylinux-x86_cp27-cp27m:
     docker:
       - image: quay.io/pypa/manylinux1_i686
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x86_cp27-cp27mu:
     docker:
       - image: quay.io/pypa/manylinux1_i686
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x86_cp34-cp34m:
     docker:
       - image: quay.io/pypa/manylinux1_i686
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x86_cp35-cp35m:
     docker:
       - image: quay.io/pypa/manylinux1_i686
-    <<: *ci-steps
+    <<: *build-wheel
 
   manylinux-x86_cp36-cp36m:
     docker:
       - image: quay.io/pypa/manylinux1_i686
-    <<: *ci-steps
+    <<: *build-wheel
 
 
 workflows:
   version: 2
-  build-test-deploy:
+  test_and_build:
     jobs:
-      - manylinux-x64_cp27-cp27m
-      - manylinux-x64_cp27-cp27mu
-      - manylinux-x64_cp34-cp34m
-      - manylinux-x64_cp35-cp35m
-      - manylinux-x64_cp36-cp36m
+      - py27
+      - py34
+      - py35
+      - py36
+      - py37
+      - pypy
+      - pypy3
 
-      - manylinux-x86_cp27-cp27m
-      - manylinux-x86_cp27-cp27mu
-      - manylinux-x86_cp34-cp34m
-      - manylinux-x86_cp35-cp35m
-      - manylinux-x86_cp36-cp36m
+      - manylinux-x64_cp27-cp27m:
+          requires:
+            - py27
+      - manylinux-x64_cp27-cp27mu:
+          requires:
+            - py27
+      - manylinux-x64_cp34-cp34m:
+          requires:
+            - py34
+      - manylinux-x64_cp35-cp35m:
+          requires:
+            - py35
+      - manylinux-x64_cp36-cp36m:
+          requires:
+            - py36
+
+      - manylinux-x86_cp27-cp27m:
+          requires:
+            - py27
+      - manylinux-x86_cp27-cp27mu:
+          requires:
+            - py27
+      - manylinux-x86_cp34-cp34m:
+          requires:
+            - py34
+      - manylinux-x86_cp35-cp35m:
+          requires:
+            - py35
+      - manylinux-x86_cp36-cp36m:
+          requires:
+            - py36
