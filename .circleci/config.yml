@@ -18,11 +18,18 @@ test: &test
         name: install dependencies
         command: |
           sudo pip install -r tox-requirements.txt
+    - restore_cache:
+        keys:
+          - tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
+          - tox-env-
     - run:
         name: test
         command: |
           tox -e ${CIRCLE_JOB}
-
+    - save_cache:
+        key: tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
+        paths:
+          - .tox
 test_pypy: &test_pypy
   working_directory: ~/bencoder.pyx
   steps:
