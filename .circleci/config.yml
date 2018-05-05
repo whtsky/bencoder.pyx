@@ -5,6 +5,10 @@ build-wheel: &build-wheel
   - run:
       name: build wheel
       command: bash /work/ci/build-wheels.sh
+  - run:
+      name: upload
+      command: |
+        if [ $CIRCLE_TAG ]; then source /work/ci/deploy.sh; fi
 
 test: &test
   working_directory: ~/bencoder.pyx
