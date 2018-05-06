@@ -6,9 +6,6 @@ from setuptools import setup
 from setuptools.extension import Extension
 from setuptools.command.test import test as TestCommand
 
-version = platform.python_version_tuple()
-install_requires = []
-
 pyx_path = 'bencoder.pyx'
 c_path = 'bencoder.c'
 
@@ -110,6 +107,7 @@ setup(
     keywords=['bencoding', 'encode', 'decode', 'bittorrent', 'bencode', 'bencoder', 'cython'],
     cmdclass=cmdclass,
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -131,6 +129,6 @@ setup(
         'Topic :: Utilities',
     ],
     ext_modules=ext_modules,
-    install_requires=install_requires,
+    install_requires=[],
     tests_require=['cython', 'pytest', 'coverage'],
 )

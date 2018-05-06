@@ -4,15 +4,19 @@ Bencoder.pyx
 A fast bencode implementation in Cython supports both Python2 & Python3 .
 
 .. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=macOS
+    :alt: macOS Test Status
     :target: https://travis-ci.org/whtsky/bencoder.pyx
 .. image:: https://img.shields.io/appveyor/ci/whtsky/bencoder-pyx/master.svg?maxAge=3600&label=Windows
+    :alt: Windows Test Status
     :target: https://ci.appveyor.com/project/whtsky/bencoder-pyx
-.. image:: https://semaphoreci.com/api/v1/whtsky/bencoder-pyx/branches/master/shields_badge.svg
-    :target: https://semaphoreci.com/whtsky/bencoder-pyx
-
-.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=wheels
-    :target: https://travis-ci.org/whtsky/bencoder.pyx
+.. image:: https://img.shields.io/circleci/ci/whtsky/bencoder-pyx/master.svg?maxAge=3600&label=Linux
+    :alt: Linux Test Status
+    :target: https://circleci.com/gh/whtsky/bencoder.pyx
+.. image:: https://img.shields.io/pypi/l/bencoder.pyx.svg
+    :alt: PyPI License
+    :target: https://pypi.org/project/bencoder.pyx/
 .. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/master/graph/badge.svg
+    :alt: Codecov Coverage
     :target: https://codecov.io/gh/whtsky/bencoder.pyx
 
 Install
