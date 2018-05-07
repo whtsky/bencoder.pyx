@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwhtsky%2Fbencoder.pyx.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwhtsky%2Fbencoder.pyx?ref=badge_shield)
+
 Bencoder.pyx
 ============
 
@@ -77,3 +79,6 @@ Version 1.1.0
 
 + Use OrderedDict instaed of dict
 + Support encoding subclasses of dict
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwhtsky%2Fbencoder.pyx.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwhtsky%2Fbencoder.pyx?ref=badge_large)
