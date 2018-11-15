@@ -12,7 +12,7 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '1.2.1'
+__version__ = '2.0.0'
 
 
 

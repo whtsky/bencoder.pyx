@@ -53,6 +53,13 @@ Usage
 ChangeLog
 ----------
 
+Version 2.0.0
+~~~~~~~~~~~~~~~
+
++ Use built-in dict instead of OrderedDict on Python >= 3.7
++ Drop support for Python 3.3
++ Fix bytes parsing when used with python-future `#41 <https://github.com/whtsky/bencoder.pyx/pull/41>`_
+
 Version 1.2.1
 ~~~~~~~~~~~~~~~
 
