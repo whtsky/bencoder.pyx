@@ -1,15 +1,16 @@
 build-wheel: &build-wheel
   working_directory: /work
   steps:
-  - checkout
-  - run:
-      name: build wheel
-      command: bash /work/ci/build-wheels.sh
-  - run:
-      name: upload
-      command: |
-        if [ $CIRCLE_TAG ]; then source /work/ci/deploy.sh; fi
-
+    - checkout
+    - run:
+        name: build wheel
+        command: bash /work/ci/build-wheels.sh
+    - run:
+        name: upload
+        command: |
+          if [ $CIRCLE_TAG ]; then source /work/ci/deploy.sh; fi
+    - store_artifacts:
+        path: wheelhouse/
 test: &test
   working_directory: ~/bencoder.pyx
   steps:
@@ -42,7 +43,6 @@ test_pypy: &test_pypy
         name: test
         command: |
           tox -e ${CIRCLE_JOB}
-
 
 version: 2
 jobs:
@@ -147,7 +147,6 @@ jobs:
     docker:
       - image: quay.io/pypa/manylinux1_i686
     <<: *build-wheel
-
 
 workflows:
   version: 2
