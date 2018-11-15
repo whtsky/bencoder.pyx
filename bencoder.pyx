@@ -125,7 +125,7 @@ cdef encode_long(x, list r):
     r.append(b'e')
 
 
-cdef encode_bytes(bytes x, list r):
+cdef encode_bytes(x, list r):
     r.append(str(len(x)).encode())
     r.append(b':')
     r.append(x)
