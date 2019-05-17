@@ -55,15 +55,15 @@ jobs:
     <<: *test
   py34:
     docker:
-      - image: circleci/python:3.4
+      - image: circleci/python:3.7
     <<: *test
   py35:
     docker:
-      - image: circleci/python:3.5
+      - image: circleci/python:3.7
     <<: *test
   py36:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3.7
     <<: *test
   py37:
     docker:
