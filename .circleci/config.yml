@@ -110,7 +110,7 @@ jobs:
       - image: quay.io/pypa/manylinux1_x86_64
     <<: *build-wheel
 
-  manylinux-x64_cp38-cp38m:
+  manylinux-x64_cp38-cp38:
     docker:
       - image: quay.io/pypa/manylinux1_x86_64
     <<: *build-wheel
@@ -143,7 +143,7 @@ jobs:
       - image: quay.io/pypa/manylinux1_i686
     <<: *build-wheel
 
-  manylinux-x86_cp38-cp38m:
+  manylinux-x86_cp38-cp38:
     docker:
       - image: quay.io/pypa/manylinux1_i686
     <<: *build-wheel
@@ -175,7 +175,7 @@ workflows:
       - manylinux-x64_cp37-cp37m:
           requires:
             - py37
-      - manylinux-x64_cp38-cp38m:
+      - manylinux-x64_cp38-cp38:
           requires:
             - py38
 
@@ -194,6 +194,6 @@ workflows:
       - manylinux-x86_cp37-cp37m:
           requires:
             - py37
-      - manylinux-x86_cp38-cp38m:
+      - manylinux-x86_cp38-cp38:
           requires:
             - py38
