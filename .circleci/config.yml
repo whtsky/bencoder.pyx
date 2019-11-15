@@ -65,6 +65,10 @@ jobs:
     docker:
       - image: circleci/python:3.7
     <<: *test
+  py38:
+    docker:
+      - image: circleci/python:3.8
+    <<: *test
   pypy:
     docker:
       - image: pypy:2
@@ -106,6 +110,11 @@ jobs:
       - image: quay.io/pypa/manylinux1_x86_64
     <<: *build-wheel
 
+  manylinux-x64_cp38-cp38m:
+    docker:
+      - image: quay.io/pypa/manylinux1_x86_64
+    <<: *build-wheel
+
   #
   # x86
   #
@@ -134,6 +143,11 @@ jobs:
       - image: quay.io/pypa/manylinux1_i686
     <<: *build-wheel
 
+  manylinux-x86_cp38-cp38m:
+    docker:
+      - image: quay.io/pypa/manylinux1_i686
+    <<: *build-wheel
+
 workflows:
   version: 2
   test_and_build:
@@ -142,6 +156,7 @@ workflows:
       - py35
       - py36
       - py37
+      - py38
       - pypy
       - pypy3
 
@@ -160,6 +175,9 @@ workflows:
       - manylinux-x64_cp37-cp37m:
           requires:
             - py37
+      - manylinux-x64_cp38-cp38m:
+          requires:
+            - py38
 
       - manylinux-x86_cp27-cp27m:
           requires:
@@ -176,3 +194,6 @@ workflows:
       - manylinux-x86_cp37-cp37m:
           requires:
             - py37
+      - manylinux-x86_cp38-cp38m:
+          requires:
+            - py38

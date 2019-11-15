@@ -8,6 +8,7 @@ env:
     - VERSION=3.5
     - VERSION=3.6
     - VERSION=3.7
+    - VERSION=3.8
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_install.sh; fi

@@ -14,6 +14,8 @@ environment:
     - PYTHON: "C:\\Python36-x64"
     - PYTHON: "C:\\Python37"
     - PYTHON: "C:\\Python37-x64"
+    - PYTHON: "C:\\Python38"
+    - PYTHON: "C:\\Python38-x64"
 
 init:
   - ps: "ls C:/Python*"
@@ -40,7 +42,7 @@ after_test:
 deploy_script:
   - ps: >-
       if($env:appveyor_repo_tag -eq 'True') {
-          $env:Path += ";C:\Python35;C:\Python35\scripts"
+          $env:Path += ";C:\Python37;C:\Python37\scripts"
           pip install twine
           twine upload --username whtsky --password $env:PYPI_PASSWD wheelhouse/bencoder*.whl
       }
