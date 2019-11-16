@@ -22,23 +22,23 @@ jobs:
   #
   py27:
     docker:
-      - image: circleci/python:2.7
+      - image: python:2.7
     <<: *test
   py35:
     docker:
-      - image: circleci/python:3.5
+      - image: python:3.5
     <<: *test
   py36:
     docker:
-      - image: circleci/python:3.6
+      - image: python:3.6
     <<: *test
   py37:
     docker:
-      - image: circleci/python:3.7
+      - image: python:3.7
     <<: *test
   py38:
     docker:
-      - image: circleci/python:3.8
+      - image: python:3.8
     <<: *test
   pypy:
     docker:

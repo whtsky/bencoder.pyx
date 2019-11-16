@@ -13,15 +13,11 @@ matrix:
         - docker
     - os: osx
       language: generic
-      osx_image: xcode6.4
-    - os: osx
-      language: generic
-      osx_image: xcode11
 
 script:
-  - pip install cibuildwheel==1.0.0
+  - python -m pip install cibuildwheel==1.0.0 twine
   - cibuildwheel --output-dir wheelhouse
 
 after_success:
   - ls wheelhouse/
-  - if [ $TRAVIS_TAG ]; then source ci/deploy.sh; fi
+  - if [ $TRAVIS_TAG ]; then twine upload --username whtsky --password $PYPI_PASSWORD wheelhouse/bencoder*.whl; fi
