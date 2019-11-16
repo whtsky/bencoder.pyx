@@ -5,6 +5,7 @@ test: &test
     - run:
         name: install dependencies
         command: |
+          pip install -U pip setuptools wheel
           pip install -r dev-requirements.txt
     - run:
         name: test
