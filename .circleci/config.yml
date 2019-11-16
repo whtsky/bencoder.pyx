@@ -12,6 +12,7 @@ test: &test
           - python setup.py test
     - run:
         name: upload coverage
+        command: |
           - pip install codecov
           - codecov --required
 version: 2
