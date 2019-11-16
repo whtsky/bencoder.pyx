@@ -1,20 +1,23 @@
-os: osx
-language: generic
+language: python
 env:
   global:
+    - CIBW_BEFORE_BUILD="pip install -r build-requirements.txt"
+    - CIBW_TEST_REQUIRES=pytest
+    - CIBW_TEST_COMMAND="pytest {project}/tests"
     - secure: "R5OivfMMAw1BhdwbBjEjfxhkqtj+Ntqf+jh+05Mr3y1aV8tC9J1vsq213Q7J7teweJ7WteHSj8ymJk2DdJ5mOIFEPAWQeuUIzcaplmfmsxYNdUhj19Ok8E8XG+ppBHccDaS3eE6GM6tDB9PouOE0MGA8/j9DLHXDSPTrjO/+G+AQ7V9M2+XqiEHJrPhlzas1h37XKLa5EzMIMK3atoUS1CLg6JOa+Rgz9OfXs+wQyErdQ5BjNfzZH4BKFhHl1zBViPv+j3SHDkyFw92mbXx14qn8xiyY3ZtKisMKT/X5o8DUJbWN3OdFF65NQq5lcnTFjIx06LJmy+zLjnZ83qggRuRPxAV2D9ODRBjDY3bdBMVSeaP/0yKldZyd14UXU3Ahwymi9lHC+MRgzRx5VyovptgOq3RfZ97peRT0NRDuotcxG1oFcAOIutH7oQZiAWZV7LLSSc3JdNCbwjRDm0MqzoD4TcMa8vCJMEZWSzLLygJYiZC0OklTnOYko5wdYms8aJw1FPjXbc2UNo6bVXXnbdoxEfadxtWKskNKF6tSdl766CMh/jM3gMv2bZkY2mYSnNp1RL1sslE33BZPgzW5fyFnUBskwQZEOidWx+uQ1eiPsnvb5FBC8on59fTVKkHh6Xiffqltq8Yvy33P12qoV+S9GHMT4DOm9bQf/qob2fQ="
-  matrix:
-    - VERSION=2.7
-    - VERSION=3.5
-    - VERSION=3.6
-    - VERSION=3.7
 
-install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_install.sh; fi
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+    - os: osx
+      language: generic
 
 script:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source ci/travis_osx_script.sh; fi
+  - python -m pip install cibuildwheel==1.0.0 twine
+  - cibuildwheel --output-dir wheelhouse
 
 after_success:
   - ls wheelhouse/
-  - if [ $TRAVIS_TAG ]; then source ci/deploy.sh; fi
+  - if [ $TRAVIS_TAG ]; then twine upload --username whtsky --password $PYPI_PASSWORD wheelhouse/bencoder*.whl; fi

@@ -1,16 +1,3 @@
-build-wheel: &build-wheel
-  working_directory: /work
-  steps:
-    - checkout
-    - run:
-        name: build wheel
-        command: bash /work/ci/build-wheels.sh
-    - run:
-        name: upload
-        command: |
-          if [ $CIRCLE_TAG ]; then source /work/ci/deploy.sh; fi
-    - store_artifacts:
-        path: wheelhouse/
 test: &test
   working_directory: ~/bencoder.pyx
   steps:
@@ -18,32 +5,17 @@ test: &test
     - run:
         name: install dependencies
         command: |
-          sudo pip install -r tox-requirements.txt
-    - restore_cache:
-        keys:
-          - tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
-          - tox-env-
+          pip install -U pip setuptools wheel
+          pip install -r dev-requirements.txt
     - run:
         name: test
         command: |
-          tox -e ${CIRCLE_JOB}
-    - save_cache:
-        key: tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
-        paths:
-          - .tox
-test_pypy: &test_pypy
-  working_directory: ~/bencoder.pyx
-  steps:
-    - checkout
+          python setup.py test
     - run:
-        name: install dependencies
+        name: upload coverage
         command: |
-          pip install -r tox-requirements.txt
-    - run:
-        name: test
-        command: |
-          tox -e ${CIRCLE_JOB}
-
+          pip install codecov
+          codecov --required
 version: 2
 jobs:
   #
@@ -51,88 +23,54 @@ jobs:
   #
   py27:
     docker:
-      - image: circleci/python:2.7
+      - image: python:2.7
     <<: *test
   py35:
     docker:
-      - image: circleci/python:3.5
+      - image: python:3.5
     <<: *test
   py36:
     docker:
-      - image: circleci/python:3.6
+      - image: python:3.6
     <<: *test
   py37:
     docker:
-      - image: circleci/python:3.7
+      - image: python:3.7
+    <<: *test
+  py38:
+    docker:
+      - image: python:3.8
     <<: *test
   pypy:
     docker:
       - image: pypy:2
-    <<: *test_pypy
+    working_directory: ~/bencoder.pyx
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -U pip setuptools wheel
+            pip install -r dev-requirements.txt
+      - run:
+          name: test
+          command: |
+            pypy setup.py test
   pypy3:
     docker:
       - image: pypy:3
-    <<: *test_pypy
-
-  #
-  # build manylinux wheel
-  #
-
-  #
-  # x64
-  #
-  manylinux-x64_cp27-cp27m:
-    docker:
-      - image: quay.io/pypa/manylinux1_x86_64
-    <<: *build-wheel
-
-  manylinux-x64_cp27-cp27mu:
-    docker:
-      - image: quay.io/pypa/manylinux1_x86_64
-    <<: *build-wheel
-
-  manylinux-x64_cp35-cp35m:
-    docker:
-      - image: quay.io/pypa/manylinux1_x86_64
-    <<: *build-wheel
-
-  manylinux-x64_cp36-cp36m:
-    docker:
-      - image: quay.io/pypa/manylinux1_x86_64
-    <<: *build-wheel
-
-  manylinux-x64_cp37-cp37m:
-    docker:
-      - image: quay.io/pypa/manylinux1_x86_64
-    <<: *build-wheel
-
-  #
-  # x86
-  #
-  manylinux-x86_cp27-cp27m:
-    docker:
-      - image: quay.io/pypa/manylinux1_i686
-    <<: *build-wheel
-
-  manylinux-x86_cp27-cp27mu:
-    docker:
-      - image: quay.io/pypa/manylinux1_i686
-    <<: *build-wheel
-
-  manylinux-x86_cp35-cp35m:
-    docker:
-      - image: quay.io/pypa/manylinux1_i686
-    <<: *build-wheel
-
-  manylinux-x86_cp36-cp36m:
-    docker:
-      - image: quay.io/pypa/manylinux1_i686
-    <<: *build-wheel
-
-  manylinux-x86_cp37-cp37m:
-    docker:
-      - image: quay.io/pypa/manylinux1_i686
-    <<: *build-wheel
+    working_directory: ~/bencoder.pyx
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -U pip setuptools wheel
+            pip install -r dev-requirements.txt
+      - run:
+          name: test
+          command: |
+            pypy3 setup.py test
 
 workflows:
   version: 2
@@ -142,37 +80,6 @@ workflows:
       - py35
       - py36
       - py37
+      - py38
       - pypy
       - pypy3
-
-      - manylinux-x64_cp27-cp27m:
-          requires:
-            - py27
-      - manylinux-x64_cp27-cp27mu:
-          requires:
-            - py27
-      - manylinux-x64_cp35-cp35m:
-          requires:
-            - py35
-      - manylinux-x64_cp36-cp36m:
-          requires:
-            - py36
-      - manylinux-x64_cp37-cp37m:
-          requires:
-            - py37
-
-      - manylinux-x86_cp27-cp27m:
-          requires:
-            - py27
-      - manylinux-x86_cp27-cp27mu:
-          requires:
-            - py27
-      - manylinux-x86_cp35-cp35m:
-          requires:
-            - py35
-      - manylinux-x86_cp36-cp36m:
-          requires:
-            - py36
-      - manylinux-x86_cp37-cp37m:
-          requires:
-            - py37

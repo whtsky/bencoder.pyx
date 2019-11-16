@@ -2,18 +2,11 @@ version: "{branch}-{build}"
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 environment:
+  CIBW_BEFORE_BUILD: "pip install -r build-requirements.txt"
+  CIBW_TEST_REQUIRES: pytest
+  CIBW_TEST_COMMAND: "pytest {project}/tests"
   PYPI_PASSWD:
     secure: pp1j5lAB9NN8ZDasgY+oxoGrNw0+4gGzbNZmHVwJkCzUyrNBP5ZIuCrwjmx4q6ifg7RMiE3bVt9MljFCJh3XpsvVOAcx+AGKsHSjtXd40HM=
-
-  matrix:
-    - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python36-x64"
-    - PYTHON: "C:\\Python37"
-    - PYTHON: "C:\\Python37-x64"
 
 init:
   - ps: "ls C:/Python*"
@@ -23,24 +16,20 @@ install:
   - echo "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64 > "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
   - pip install -r dev-requirements.txt
 
-build: off
+build_script:
+  - python -m pip install -U pip setuptools
+  - pip install cibuildwheel==1.0.0
+  - cibuildwheel --output-dir wheelhouse
 
 test_script:
-  - python -m pip install -U pip setuptools
   - pip install codecov
   - python setup.py test
   - codecov --required
 
-after_test:
-  - del bencoder.c
-  - pip install wheel
-  - pip wheel . -w wheelhouse/
-  - ps: "ls wheelhouse/*"
-
 deploy_script:
   - ps: >-
       if($env:appveyor_repo_tag -eq 'True') {
-          $env:Path += ";C:\Python35;C:\Python35\scripts"
+          $env:Path += ";C:\Python37;C:\Python37\scripts"
           pip install twine
           twine upload --username whtsky --password $env:PYPI_PASSWD wheelhouse/bencoder*.whl
       }
