@@ -27,15 +27,15 @@ jobs:
     <<: *test
   py35:
     docker:
-      - image: python:3.5
+      - image: python:3.8
     <<: *test
   py36:
     docker:
-      - image: python:3.6
+      - image: python:3.8
     <<: *test
   py37:
     docker:
-      - image: python:3.7
+      - image: python:3.8
     <<: *test
   py38:
     docker:
