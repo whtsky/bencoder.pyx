@@ -10,12 +10,25 @@ test: &test
     - run:
         name: test
         command: |
-          python setup.py test || pypy setup.py test
+          python setup.py test
     - run:
         name: upload coverage
         command: |
           pip install codecov
           codecov --required
+test_pypy: &test_pypy
+  working_directory: ~/bencoder.pyx
+  steps:
+    - checkout
+    - run:
+        name: install dependencies
+        command: |
+          pip install -U pip setuptools wheel
+          pip install -r dev-requirements.txt
+    - run:
+        name: test
+        command: |
+          pypy setup.py test
 version: 2
 jobs:
   #
@@ -44,11 +57,11 @@ jobs:
   pypy:
     docker:
       - image: pypy:2
-    <<: *test
+    <<: *test_pypy
   pypy3:
     docker:
       - image: pypy:3
-    <<: *test
+    <<: *test_pypy
 
 workflows:
   version: 2
