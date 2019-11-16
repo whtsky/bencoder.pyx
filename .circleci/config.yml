@@ -9,12 +9,12 @@ test: &test
     - run:
         name: test
         command: |
-          - python setup.py test
+          python setup.py test
     - run:
         name: upload coverage
         command: |
-          - pip install codecov
-          - codecov --required
+          pip install codecov
+          codecov --required
 version: 2
 jobs:
   #
