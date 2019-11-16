@@ -16,19 +16,6 @@ test: &test
         command: |
           pip install codecov
           codecov --required
-test_pypy: &test_pypy
-  working_directory: ~/bencoder.pyx
-  steps:
-    - checkout
-    - run:
-        name: install dependencies
-        command: |
-          pip install -U pip setuptools wheel
-          pip install -r dev-requirements.txt
-    - run:
-        name: test
-        command: |
-          pypy setup.py test
 version: 2
 jobs:
   #
@@ -57,11 +44,33 @@ jobs:
   pypy:
     docker:
       - image: pypy:2
-    <<: *test_pypy
+    working_directory: ~/bencoder.pyx
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -U pip setuptools wheel
+            pip install -r dev-requirements.txt
+      - run:
+          name: test
+          command: |
+            pypy setup.py test
   pypy3:
     docker:
       - image: pypy:3
-    <<: *test_pypy
+    working_directory: ~/bencoder.pyx
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -U pip setuptools wheel
+            pip install -r dev-requirements.txt
+      - run:
+          name: test
+          command: |
+            pypy3 setup.py test
 
 workflows:
   version: 2
