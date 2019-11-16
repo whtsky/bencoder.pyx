@@ -11,18 +11,15 @@ matrix:
     - sudo: required
       services:
         - docker
-      env: PIP=pip
     - os: osx
       language: generic
-      env: PIP=pip2
       osx_image: xcode6.4
     - os: osx
       language: generic
-      env: PIP=pip2
       osx_image: xcode11
 
 script:
-  - $PIP install cibuildwheel==1.0.0
+  - pip install cibuildwheel==1.0.0
   - cibuildwheel --output-dir wheelhouse
 
 after_success:
