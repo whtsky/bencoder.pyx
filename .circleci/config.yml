@@ -5,32 +5,15 @@ test: &test
     - run:
         name: install dependencies
         command: |
-          sudo pip install -r tox-requirements.txt
-    - restore_cache:
-        keys:
-          - tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
-          - tox-env-
+          sudo pip install -r dev-requirements.txt
     - run:
         name: test
         command: |
-          tox -e ${CIRCLE_JOB}
-    - save_cache:
-        key: tox-env-{{ checksum "test-requirements" }}-{{ checksum "build-requirements.txt" }}
-        paths:
-          - .tox
-test_pypy: &test_pypy
-  working_directory: ~/bencoder.pyx
-  steps:
-    - checkout
+          - python setup.py test
     - run:
-        name: install dependencies
-        command: |
-          pip install -r tox-requirements.txt
-    - run:
-        name: test
-        command: |
-          tox -e ${CIRCLE_JOB}
-
+        name: upload coverage
+          - pip install codecov
+          - codecov --required
 version: 2
 jobs:
   #
@@ -59,11 +42,11 @@ jobs:
   pypy:
     docker:
       - image: pypy:2
-    <<: *test_pypy
+    <<: *test
   pypy3:
     docker:
       - image: pypy:3
-    <<: *test_pypy
+    <<: *test
 
 workflows:
   version: 2
