@@ -10,7 +10,7 @@ test: &test
     - run:
         name: test
         command: |
-          python setup.py test
+          python setup.py test || pypy setup.py test
     - run:
         name: upload coverage
         command: |
