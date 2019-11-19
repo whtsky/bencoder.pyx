@@ -3,13 +3,7 @@ Bencoder.pyx
 
 A fast bencode implementation in Cython supports both Python2 & Python3 .
 
-.. image:: https://img.shields.io/travis/whtsky/bencoder.pyx/master.svg?maxAge=3600&label=macOS
-    :alt: macOS Test Status
-    :target: https://travis-ci.org/whtsky/bencoder.pyx
-.. image:: https://img.shields.io/appveyor/ci/whtsky/bencoder-pyx/master.svg?maxAge=3600&label=Windows
-    :alt: Windows Test Status
-    :target: https://ci.appveyor.com/project/whtsky/bencoder-pyx
-.. image:: https://img.shields.io/circleci/ci/whtsky/bencoder-pyx/master.svg?maxAge=3600&label=Linux
+.. image:: https://img.shields.io/circleci/build/github/whtsky/bencoder.pyx/master
     :alt: Linux Test Status
     :target: https://circleci.com/gh/whtsky/bencoder.pyx
 .. image:: https://img.shields.io/pypi/l/bencoder.pyx.svg
@@ -18,10 +12,6 @@ A fast bencode implementation in Cython supports both Python2 & Python3 .
 .. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/master/graph/badge.svg
     :alt: Codecov Coverage
     :target: https://codecov.io/gh/whtsky/bencoder.pyx
-.. image:: https://pypistats.com/badge/bencoder-pyx.svg
-    :alt: bencoder-pyx PyPI Downloads
-    :target: https://pypistats.com/package/bencoder-pyx
-
 Install
 -------
 
@@ -52,6 +42,12 @@ Usage
 
 ChangeLog
 ----------
+
+Version 2.0.1
+~~~~~~~~~~~~~~~
+
++ Add support for Python 3.8
++ Drop support for Python 3.4
 
 Version 2.0.0
 ~~~~~~~~~~~~~~~
