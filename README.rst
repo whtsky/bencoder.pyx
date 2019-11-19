@@ -12,6 +12,7 @@ A fast bencode implementation in Cython supports both Python2 & Python3 .
 .. image:: https://codecov.io/gh/whtsky/bencoder.pyx/branch/master/graph/badge.svg
     :alt: Codecov Coverage
     :target: https://codecov.io/gh/whtsky/bencoder.pyx
+
 Install
 -------
 

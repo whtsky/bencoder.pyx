@@ -41,6 +41,25 @@ jobs:
     docker:
       - image: python:3.8
     <<: *test
+  twine_check:
+    docker:
+      - image: python:3.8
+    working_directory: ~/bencoder.pyx
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install -U pip setuptools wheel twine
+            pip install -r dev-requirements.txt
+      - run:
+          name: build wheel
+          command: |
+            python setup.py bdist_wheel
+      - run:
+          name: twine check
+          command: |
+            twine check dist/*.whl
   pypy:
     docker:
       - image: pypy:2
@@ -83,3 +102,4 @@ workflows:
       - py38
       - pypy
       - pypy3
+      - twine_check
