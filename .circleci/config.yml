@@ -27,23 +27,23 @@ jobs:
     <<: *test
   py35:
     docker:
-      - image: python:3.5
+      - image: python:3.9
     <<: *test
   py36:
     docker:
-      - image: python:3.6
+      - image: python:3.9
     <<: *test
   py37:
     docker:
-      - image: python:3.7
+      - image: python:3.9
     <<: *test
   py38:
     docker:
-      - image: python:3.8
+      - image: python:3.9
     <<: *test
   twine_check:
     docker:
-      - image: python:3.8
+      - image: python:3.9
     working_directory: ~/bencoder.pyx
     steps:
       - checkout
