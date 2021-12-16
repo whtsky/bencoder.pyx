@@ -12,18 +12,13 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '2.0.1'
+__version__ = '3.0.0'
 
 
 
 from cpython.version cimport PY_MAJOR_VERSION, PY_MINOR_VERSION
-IS_PY2 = PY_MAJOR_VERSION == 2
-if IS_PY2:
-    END_CHAR = 'e'
-    ARRAY_TYPECODE = b'b'
-else:
-    END_CHAR = ord('e')
-    ARRAY_TYPECODE = 'b'
+END_CHAR = ord('e')
+ARRAY_TYPECODE = 'b'
 
 if PY_MAJOR_VERSION >= 3 and PY_MINOR_VERSION >=7:
     OrderedDict = dict
@@ -81,10 +76,7 @@ for func, keys in [
     (decode_string, [str(x) for x in range(10)])
 ]:
     for key in keys:
-        if IS_PY2:
-            decode_func[key] = func
-        else:
-            decode_func[ord(key)] = func
+        decode_func[ord(key)] = func
 
 
 def bdecode2(bytes x):
