@@ -1,7 +1,7 @@
 on:
   push:
   pull_request:
-name: test
+name: Test
 jobs:
   pytest:
     name: pytest
@@ -10,9 +10,12 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-python@v2
         with:
+          python-version: "3.8"
           architecture: "x64"
       - run: python -m pip install -U pip wheel setuptools
-      - run: pip install cython
-      - run: pip install .
-      - run: python setup.py test
+      - run: python -m pip install -r test-requirements.txt
+      - run: python -m pip install .
+        env:
+          CFLAGS: "-DCYTHON_TRACE=1"
+      - run: python -m pytest --cov=bencoder --cov-report=xml .
       - uses: codecov/codecov-action@v2.1.0

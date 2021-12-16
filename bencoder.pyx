@@ -1,4 +1,5 @@
 # cython: language_level=3
+# cython: linetrace=True
 
 # The contents of this file are subject to the BitTorrent Open Source License
 # Version 1.1 (the License).  You may not copy or use this file, in either

@@ -12,23 +12,13 @@ c_path = 'bencoder.c'
 if os.path.exists(c_path):
     # Remove C file to force Cython recompile.
     os.remove(c_path)
-if 'test' in sys.argv and platform.python_implementation() == 'CPython':
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path],
-        define_macros=[('CYTHON_TRACE', '1')] 
-    ), compiler_directives={
-        'linetrace': True,
-        'binding': True
-    })
-else:
-    from Cython.Build import cythonize
-    ext_modules = cythonize(Extension(
-        "bencoder",
-        [pyx_path],
-        extra_compile_args=['-O3']
-    ))
+
+from Cython.Build import cythonize
+ext_modules = cythonize(Extension(
+    "bencoder",
+    [pyx_path],
+    extra_compile_args=['-O3']
+))
 
 
 class PyTest(TestCommand):
