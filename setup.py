@@ -1,6 +1,6 @@
 import os.path
 import sys
-import platform
+import os
 
 from setuptools import setup
 from setuptools.extension import Extension
@@ -12,6 +12,13 @@ c_path = 'bencoder.c'
 if os.path.exists(c_path):
     # Remove C file to force Cython recompile.
     os.remove(c_path)
+
+if os.environ.get("BENCODER_LINETRACE", "") == "1":
+    from Cython.Compiler.Options import get_directive_defaults
+    directive_defaults = get_directive_defaults()
+
+    directive_defaults['linetrace'] = True
+    directive_defaults['binding'] = True
 
 from Cython.Build import cythonize
 ext_modules = cythonize(Extension(
