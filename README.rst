@@ -42,8 +42,11 @@ ChangeLog
 ----------
 
 Versoin 3.0.0
+~~~~~~~~~~~~~~~
 
++ Add support for Python 3.9 & 3.10
 + Drop support for Python 2
++ Build wheels for musl & aarch64
 
 Version 2.0.1
 ~~~~~~~~~~~~~~~

@@ -12,8 +12,6 @@
 
 # Based on https://github.com/karamanolev/bencode3/blob/master/bencode.py
 
-__version__ = '3.0.0'
-
 
 
 from cpython.version cimport PY_MAJOR_VERSION, PY_MINOR_VERSION
