@@ -3,9 +3,6 @@ Bencoder.pyx
 
 A fast bencode implementation in Cython supports both Python2 & Python3 .
 
-.. image:: https://img.shields.io/circleci/build/github/whtsky/bencoder.pyx/master
-    :alt: Linux Test Status
-    :target: https://circleci.com/gh/whtsky/bencoder.pyx
 .. image:: https://img.shields.io/pypi/l/bencoder.pyx.svg
     :alt: PyPI License
     :target: https://pypi.org/project/bencoder.pyx/
@@ -43,6 +40,10 @@ Usage
 
 ChangeLog
 ----------
+
+Versoin 3.0.0
+
++ Drop support for Python 2
 
 Version 2.0.1
 ~~~~~~~~~~~~~~~
