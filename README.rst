@@ -41,6 +41,10 @@ Usage
 ChangeLog
 ----------
 
+Version 3.0.1
+~~~~~~~~~~~~~~~
++ Add support for Python 3.11
+
 Versoin 3.0.0
 ~~~~~~~~~~~~~~~
 

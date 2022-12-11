@@ -55,7 +55,7 @@ cmdclass = {'test': PyTest}
 
 setup(
     name='bencoder.pyx',
-    version='3.0.0',
+    version='3.0.1',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
@@ -81,6 +81,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Intended Audience :: Developers',

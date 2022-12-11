@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macos-10.15]
+        os: [ubuntu-20.04, windows-2019, macos-11]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,9 +22,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.11.3
         env:
-          # configure cibuildwheel to build native archs ('auto'), and some
-          # emulated ones
-          CIBW_ARCHS_LINUX: auto aarch64
+          CIBW_ARCHS: all
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
