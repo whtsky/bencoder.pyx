@@ -147,9 +147,8 @@ cdef encode_dict(x, list r):
 
 
 encode_func = {
-    int: encode_int,
-    bool: encode_int,    
-    long: encode_long,
+    int: encode_long,
+    bool: encode_int,
     bytes: encode_bytes,
     str: encode_string,
     list: encode_list,
