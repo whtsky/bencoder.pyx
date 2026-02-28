@@ -27,7 +27,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
@@ -43,7 +43,7 @@ jobs:
       run: pipx run build --sdist
     - name: Check distribution
       run: pipx run twine check dist/*
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: sdist
         path: dist/*.tar.gz
