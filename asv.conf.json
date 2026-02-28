@@ -1,0 +1,28 @@
+{
+    "version": 1,
+    "project": "bencoder.pyx",
+    "project_url": "https://github.com/whtsky/bencoder.pyx",
+    "repo": ".",
+    "branches": ["master"],
+    "environment_type": "virtualenv",
+    "pythons": ["3.14"],
+    "benchmark_dir": "benchmarks",
+    "env_dir": ".asv/env",
+    "results_dir": ".asv/results",
+    "html_dir": ".asv/html",
+    "matrix": {
+        "req": {
+            "cython": [""]
+        }
+    },
+    "build_command": [
+        "python setup.py build",
+        "python -m pip wheel -w {build_cache_dir} {build_dir}"
+    ],
+    "install_command": [
+        "in-dir={env_dir} python -m pip install --force-reinstall {wheel_file}"
+    ],
+    "uninstall_command": [
+        "return-code=any python -m pip uninstall -y bencoder-pyx bencoder.pyx"
+    ]
+}

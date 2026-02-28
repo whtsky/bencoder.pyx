@@ -67,3 +67,6 @@ target/
 .ipynb_checkpoints
 
 bencoder.c
+
+# asv
+.asv/
