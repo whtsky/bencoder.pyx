@@ -1,7 +1,7 @@
 Bencoder.pyx
 ============
 
-A fast bencode implementation in Cython supports both Python2 & Python3 .
+A fast bencode implementation in Cython for Python 3.
 
 .. image:: https://img.shields.io/pypi/l/bencoder.pyx.svg
     :alt: PyPI License
@@ -41,10 +41,15 @@ Usage
 ChangeLog
 ----------
 
+Version 3.0.2
+~~~~~~~~~~~~~~~
+ Drop support for Python 3.6–3.9, require Python >= 3.10
+ Add support for Python 3.12 & 3.13
+ Fix Cython 3 build
+
 Version 3.0.1
 ~~~~~~~~~~~~~~~
-+ Add support for Python 3.11
-
+ Add support for Python 3.11
 Versoin 3.0.0
 ~~~~~~~~~~~~~~~
 
