@@ -1,3 +1,4 @@
 {
-  "extends": ["@whtsky"]
+  "extends": ["@whtsky"],
+  "ignoreDeps": ["setuptools", "cython"]
 }
