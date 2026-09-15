@@ -44,10 +44,9 @@ def test_decode_dict():
     assert bdecode(b'd2:ka2:va2:kbi2ee') == od
 
 
-def test_ordered_dict():
-    from bencoder import OrderedDict
+def test_dict_preserves_order():
     rv = bdecode(b'd2:ka2:va2:kbi2ee')
-    assert isinstance(rv, OrderedDict)
+    assert isinstance(rv, dict)
     assert list(rv.keys()) == [b'ka', b'kb']
     assert list(bdecode(b'd2:kc2:va2:kei2ee').keys()) == [b'kc', b'ke']
     assert list(bdecode(b'd2:ke2:va2:kci2ee').keys()) == [b'ke', b'kc']

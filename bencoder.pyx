@@ -16,7 +16,6 @@
 
 END_CHAR = ord('e')
 ARRAY_TYPECODE = 'b'
-OrderedDict = dict
 
 class BTFailure(Exception):
     pass
@@ -52,7 +51,7 @@ def decode_list(bytes x, int f):
 
 
 def decode_dict(bytes x, int f):
-    r = OrderedDict()
+    r = {}
     f += 1
     while x[f] != END_CHAR:
         k, f = decode_string(x, f)
