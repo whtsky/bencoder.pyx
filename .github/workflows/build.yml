@@ -10,6 +10,7 @@ jobs:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, windows-11-arm, macos-15-intel, macos-latest]
 
@@ -27,6 +28,7 @@ jobs:
       - name: Build wheels
         env:
           BENCODER_LIMITED_API: "0"
+          CIBW_ENVIRONMENT: "BENCODER_LIMITED_API=0"
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v7
@@ -38,6 +40,7 @@ jobs:
     name: Build ABI3 wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, windows-11-arm, macos-15-intel, macos-latest]
 
@@ -55,6 +58,7 @@ jobs:
         env:
           BENCODER_LIMITED_API: "1"
           CIBW_BUILD: "cp312-*"
+          CIBW_ENVIRONMENT: "BENCODER_LIMITED_API=1"
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - name: Audit ABI3 wheels
