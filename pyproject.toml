@@ -3,6 +3,6 @@ requires = ["cython>=3.1", "setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.cibuildwheel]
-skip = "cp36-* cp37-* cp38-* cp39-* pp37-* pp38-* pp39-*"
+skip = "pp*"
 test-requires = "pytest"
 test-command = "pytest {project}/tests"

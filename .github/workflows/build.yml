@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v7
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==3.3.1
+        run: python -m pip install cibuildwheel==4.2.1
 
       - name: Build wheels
         env:
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-python@v7
 
       - name: Install cibuildwheel and abi3audit
-        run: python -m pip install cibuildwheel==3.3.1 abi3audit
+        run: python -m pip install cibuildwheel==4.2.1 abi3audit
 
       - name: Build ABI3 wheel
         env:
