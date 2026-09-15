@@ -14,14 +14,9 @@
 
 
 
-from cpython.version cimport PY_MAJOR_VERSION, PY_MINOR_VERSION
 END_CHAR = ord('e')
 ARRAY_TYPECODE = 'b'
-
-if PY_MAJOR_VERSION >= 3 and PY_MINOR_VERSION >=7:
-    OrderedDict = dict
-else:
-    from collections import OrderedDict
+OrderedDict = dict
 
 class BTFailure(Exception):
     pass
@@ -154,7 +149,6 @@ encode_func = {
     list: encode_list,
     tuple: encode_list,
     dict: encode_dict,
-    OrderedDict: encode_dict,
 }
 
 
