@@ -9,8 +9,8 @@ from setuptools.command.test import test as TestCommand
 pyx_path = 'bencoder.pyx'
 c_path = 'bencoder.c'
 use_limited_api = os.environ.get("BENCODER_LIMITED_API", "0") == "1"
-abi3_tag = "cp310"
-abi3_api = "0x030A0000"
+abi3_tag = "cp315"
+abi3_api = "0x030F0000"
 
 if os.path.exists(c_path):
     # Remove C file to force Cython recompile.

@@ -44,7 +44,7 @@ ChangeLog
 Version 3.0.3
 ~~~~~~~~~~~~~~~
 
-+ Add a `cp310-abi3` fallback wheel for CPython 3.10 and newer
++ Add a `cp315-abi3` fallback wheel for CPython 3.15 and newer
 + Keep per-version native wheels for optimized builds
 
 Version 3.0.2
