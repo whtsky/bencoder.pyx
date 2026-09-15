@@ -9,6 +9,8 @@ from setuptools.command.test import test as TestCommand
 pyx_path = 'bencoder.pyx'
 c_path = 'bencoder.c'
 use_limited_api = os.environ.get("BENCODER_LIMITED_API", "0") == "1"
+abi3_tag = "cp310"
+abi3_api = "0x030A0000"
 
 if os.path.exists(c_path):
     # Remove C file to force Cython recompile.
@@ -28,9 +30,9 @@ if use_limited_api:
         [pyx_path],
         extra_compile_args=["-O3"],
         py_limited_api=True,
-        define_macros=[("Py_LIMITED_API", "0x030C0000")],
+        define_macros=[("Py_LIMITED_API", abi3_api)],
     )
-    setup_options = {"bdist_wheel": {"py_limited_api": "cp312"}}
+    setup_options = {"bdist_wheel": {"py_limited_api": abi3_tag}}
 else:
     extension = Extension(
         "bencoder",
@@ -69,7 +71,7 @@ cmdclass = {'test': PyTest}
 
 setup(
     name='bencoder.pyx',
-    version='3.0.2',
+    version='3.0.3',
     description='Yet another bencode implementation in Cython',
     long_description=open('README.rst', 'r').read(),
     author='whtsky',
