@@ -8,6 +8,7 @@ from setuptools.command.test import test as TestCommand
 
 pyx_path = 'bencoder.pyx'
 c_path = 'bencoder.c'
+use_limited_api = os.environ.get("BENCODER_LIMITED_API", "0") == "1"
 
 if os.path.exists(c_path):
     # Remove C file to force Cython recompile.
@@ -20,12 +21,25 @@ if os.environ.get("BENCODER_LINETRACE", "") == "1":
     directive_defaults['linetrace'] = True
     directive_defaults['binding'] = True
 
+setup_options = {}
+if use_limited_api:
+    extension = Extension(
+        "bencoder",
+        [pyx_path],
+        extra_compile_args=["-O3"],
+        py_limited_api=True,
+        define_macros=[("Py_LIMITED_API", "0x030C0000")],
+    )
+    setup_options = {"bdist_wheel": {"py_limited_api": "cp312"}}
+else:
+    extension = Extension(
+        "bencoder",
+        [pyx_path],
+        extra_compile_args=["-O3"],
+    )
+
 from Cython.Build import cythonize
-ext_modules = cythonize(Extension(
-    "bencoder",
-    [pyx_path],
-    extra_compile_args=['-O3']
-))
+ext_modules = cythonize(extension)
 
 
 class PyTest(TestCommand):
@@ -89,6 +103,7 @@ setup(
     ],
     python_requires='>=3.10',
     ext_modules=ext_modules,
+    options=setup_options,
     install_requires=[],
     tests_require=['cython', 'pytest', 'coverage'],
 )
