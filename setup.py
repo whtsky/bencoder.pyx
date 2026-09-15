@@ -28,7 +28,7 @@ if use_limited_api:
     extension = Extension(
         "bencoder",
         [pyx_path],
-        extra_compile_args=["-O3"],
+        extra_compile_args=["-O3", "-DCYTHON_USE_TP_FINALIZE=0"],
         py_limited_api=True,
         define_macros=[("Py_LIMITED_API", abi3_api)],
     )
