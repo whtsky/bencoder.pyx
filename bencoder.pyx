@@ -24,6 +24,10 @@ class BTFailure(Exception):
 def decode_int(bytes x, int f):
     f += 1
     cdef long new_f = x.index(b'e', f)
+    digits = x[f + 1:new_f] if x[f] == b'-'[0] else x[f:new_f]
+    if not digits.isdigit():
+        # int() would also accept '+', '_' and whitespace
+        raise ValueError()
     n = int(x[f:new_f])
     if x[f] == b'-'[0]:
         if x[f + 1] == b'0'[0]:
@@ -35,6 +39,8 @@ def decode_int(bytes x, int f):
 
 def decode_string(bytes x, int f):
     cdef long colon = x.index(b':', f)
+    if not x[f:colon].isdigit():
+        raise ValueError()
     cdef long n = int(x[f:colon])
     if x[f] == b'0'[0] and colon != f + 1:
         raise ValueError()

@@ -33,6 +33,19 @@ def test_decode_large_int():
     assert bdecode(BENCODED_MAXSIZE) == MAX_SIZE
 
 
+def test_decode_rejects_non_canonical_numbers():
+    import pytest
+    from bencoder import BTFailure
+
+    for data in (b'i1_0e', b'i+1e', b'i 1e', b'i1 e', b'i-+1e', b'ie', b'i-e',
+                 b'1_0:aaaaaaaaaa', b'1 :a', b'li1_0ee', b'd1:ai1_0ee'):
+        with pytest.raises(BTFailure):
+            bdecode(data)
+    assert bdecode(b'i-10e') == -10
+    assert bdecode(b'i0e') == 0
+    assert bdecode(b'10:aaaaaaaaaa') == b'aaaaaaaaaa'
+
+
 def test_decode_list():
     assert bdecode(b'l1:a1:bi3ee') == [b'a', b'b', 3]
 
